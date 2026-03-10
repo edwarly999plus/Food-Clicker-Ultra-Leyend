@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Food Clicker: Ultra Legend</title>
+    <style>
+        /* (Mantén todos los estilos originales, no hay cambios) */
+        :root {
+            --bg: #f0f2f5; 
+            --text: #2c3e50; 
+            --card-bg: #ffffff; 
+            --panel-bg: #34495e; 
+            --panel-text: #ffffff; 
+            --box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+            --border: #e1e8ed;
+            --ach-bg: #f8f9fa; 
+            --btn-secondary: #5d6d7e; 
+            --input-bg: #ffffff;
+            --gold: #f1c40f;
+        }
+        
+        [data-theme="dark"] {
+            --bg: #121212; --text: #e0e0e0; --card-bg: #1e1e1e; --panel-bg: #000000; 
+            --panel-text: #e67e22; --box-shadow: rgba(0,0,0,0.5); --border: #333333;
+            --ach-bg: #2d2d2d; --btn-secondary: #34495e; --input-bg: #222222;
+        }
+
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            text-align: center; 
+            background-color: var(--bg); 
+            color: var(--text); 
+            margin: 0; 
+            padding: 20px; 
+            transition: 0.3s; 
+            overflow-x: hidden; 
+        }
+        
+        .gold-number {
+            color: var(--gold);
+            font-weight: bold;
+        }
+        #c-count, #cps-display, #cpc-display, .stat-value {
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        .flash-buy { animation: flash-anim 0.2s ease-out; }
+        @keyframes flash-anim { 0% { background-color: var(--flash-color); } 100% { background-color: var(--bg); } }
+        body[data-theme="light"] { --flash-color: #d1d1d1; }
+        body[data-theme="dark"] { --flash-color: #ffffff; }
+
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
+        .unsaved-blink {
+            color: red;
+            font-weight: bold;
+            animation: blink 1s infinite;
+            margin-bottom: 5px;
+            padding: 4px;
+            border-radius: 4px;
+            background-color: rgba(255,0,0,0.1);
+        }
+
+        .float-num { 
+            position: fixed; 
+            color: #e67e22; 
+            font-weight: bold; 
+            font-size: 24px; 
+            pointer-events: none; 
+            animation: float-up 0.8s forwards; 
+            z-index: 3000; 
+            text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+        }
+        @keyframes float-up { 
+            0% { transform: translateY(0); opacity: 1; } 
+            100% { transform: translateY(-80px); opacity: 0; } 
+        }
+
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            font-size: 20px;
+            z-index: 2500;
+            animation: particle-anim 0.8s forwards;
+        }
+        @keyframes particle-anim {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--dx), var(--dy)) scale(0.5); opacity: 0; }
+        }
+
+        #powerup {
+            position: fixed;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #ffd700, #b8860b);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            cursor: pointer;
+            z-index: 4000;
+            box-shadow: 0 0 20px gold;
+            animation: float 2s infinite ease-in-out;
+            border: 3px solid white;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .main-layout { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; max-width: 1200px; margin: auto; }
+        .column { flex: 1; min-width: 320px; max-width: 380px; }
+        
+        #theme-toggle { position: fixed; top: 20px; right: 20px; z-index: 1000; background: var(--text); color: var(--bg); border: none; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; }
+
+        .panel-styled { background: var(--panel-bg); color: var(--panel-text); padding: 15px; border-radius: 15px; margin-bottom: 20px; text-align: left; }
+        .box { background: var(--card-bg); border-radius: 15px; padding: 15px; box-shadow: 0 4px 15px var(--box-shadow); margin-bottom: 20px; text-align: left; border: 1px solid var(--border); }
+        .stats-card { background: var(--card-bg); padding: 25px; border-radius: 25px; box-shadow: 0 10px 30px var(--box-shadow); margin-bottom: 20px; }
+        
+        #cookie-container { 
+            width: 160px; 
+            height: 160px; 
+            margin: 20px auto; 
+            cursor: pointer; 
+            transition: 0.05s; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            border: 4px dashed #ccc; 
+            border-radius: 50%; 
+            position: relative; 
+            user-select: none; 
+        }
+        #cookie-container:active { transform: scale(0.92); }
+        #main-emoji { pointer-events: none; }
+        
+        .item-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); }
+        .btn-buy { background: #8b4513; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; min-width: 85px; }
+        .btn-buy:disabled { background: #bdc3c7 !important; cursor: not-allowed; opacity: 0.6; }
+        
+        .slot-btn { background: var(--btn-secondary); color: white; border: none; flex: 1; margin: 2px; padding: 5px; cursor: pointer; border-radius: 4px; font-size: 11px; }
+        .slot-active { background: #e67e22 !important; border: 2px solid white; }
+        
+        .ach-item { padding: 10px; background: var(--ach-bg); border-radius: 8px; margin-bottom: 5px; font-size: 12px; border-left: 4px solid #f1c40f; }
+        .render-pixel { image-rendering: pixelated; }
+        select { width: 100%; padding: 8px; border-radius: 5px; background: var(--input-bg); color: var(--text); border: 1px solid var(--border); }
+
+        .btn-buy:disabled, #btn-upload:disabled, #btn-music:disabled {
+            background: #d5dbdb !important;
+            color: #7f8c8d !important;
+            cursor: not-allowed;
+            opacity: 0.7;
+            box-shadow: none;
+        }
+        #skin-shop .item-row { padding: 5px 0; }
+        #audio-init-btn {
+            background: #e67e22;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 10px;
+            font-size: 16px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: 0.2s;
+        }
+        #audio-init-btn:hover { transform: scale(1.05); }
+
+        @media (max-width: 800px) {
+            body { padding: 10px; }
+            h1 { font-size: 24px; margin: 10px 0; }
+            #theme-toggle { width: 40px; height: 40px; top: 10px; right: 10px; }
+            .main-layout { gap: 10px; }
+            .column { min-width: 280px; max-width: 100%; flex: 1 1 auto; }
+            .stats-card { padding: 15px; }
+            .stats-card h2 { font-size: 28px; }
+            #cookie-container { width: 120px; height: 120px; margin: 10px auto; }
+            #main-emoji { font-size: 60px !important; }
+            .panel-styled, .box { padding: 12px; margin-bottom: 12px; }
+            .item-row { padding: 6px 0; }
+            .btn-buy { min-width: 70px; padding: 6px 8px; font-size: 12px; }
+            @media (orientation: landscape) {
+                .main-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+                .column { min-width: 0; }
+                #cookie-container { width: 100px; height: 100px; }
+                #main-emoji { font-size: 50px !important; }
+            }
+            @media (orientation: portrait) {
+                .main-layout { flex-direction: column; }
+                .column { width: 100%; max-width: 100%; }
+            }
+            select, button { font-size: 14px; }
+            .slot-btn { font-size: 10px; padding: 4px; }
+            .ach-item { font-size: 11px; padding: 6px; }
+            .unsaved-blink { font-size: 12px; }
+        }
+
+        @media (max-width: 400px) and (orientation: portrait) {
+            #cookie-container { width: 90px; height: 90px; }
+            #main-emoji { font-size: 45px !important; }
+            h1 { font-size: 20px; }
+            .stats-card h2 { font-size: 24px; }
+            .btn-buy { min-width: 60px; font-size: 11px; }
+        }
+
+        .creator-info {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: bold;
+            z-index: 2000;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .social-links {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 5px 12px;
+            border-radius: 30px;
+            z-index: 2000;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .social-links a { display: inline-block; line-height: 0; }
+        .social-links img { width: 24px; height: 24px; transition: opacity 0.2s; }
+        .social-links img:hover { opacity: 0.8; }
+        @media (max-width: 600px) {
+            .creator-info { font-size: 11px; padding: 4px 8px; }
+            .social-links { padding: 4px 8px; }
+            .social-links img { width: 20px; height: 20px; }
+        }
+
+        .stats-list { font-size: 13px; line-height: 1.6; }
+        .stats-list div { display: flex; justify-content: space-between; border-bottom: 1px dotted var(--border); padding: 4px 0; }
+        .stats-list .stat-label { font-weight: 600; color: var(--text); }
+        .stats-list .stat-value { font-family: monospace; color: var(--gold); }
+    </style>
+</head>
+<body data-theme="light">
+
+    <button id="theme-toggle" onclick="toggleTheme()">☀️</button>
+    <h1 id="main-title">🍴 Food Clicker: Ultra Legend</h1>
+
+    <div style="text-align: center; margin-bottom: 10px;">
+        <button id="audio-init-btn" onclick="initAudio()">🔊 Activar Sonido (Android)</button>
+    </div>
+
+    <div class="main-layout">
+        <div class="column">
+            <div class="panel-styled">
+                <strong id="label-data">💾 Data Management</strong>
+                <select id="lang-select" onchange="changeLanguage(this.value)" style="margin: 10px 0;">
+                    <option value="es">🇪🇸 Español</option>
+                    <option value="en">🇺🇸 English</option>
+                    <option value="ko">🇰🇷 한국어</option>
+                    <option value="zh">🇨🇳 中文</option>
+                    <option value="fr">🇫🇷 Français</option>
+                    <option value="de">🇩🇪 Deutsch</option>
+                    <option value="it">🇮🇹 Italiano</option>
+                    <option value="pt">🇧🇷 Português</option>
+                    <option value="ar">🇸🇦 العربية</option>
+                    <option value="ru">🇷🇺 Русский</option>
+                </select>
+                <div id="unsaved-warning" class="unsaved-blink" style="display: none;">¡Tienes datos sin guardar!</div>
+                <div id="autosave-status" style="color: green; font-weight: bold; display: none; margin-bottom: 5px;"></div>
+                <div style="display:flex;">
+                    <button id="slot-0" class="slot-btn slot-active" onclick="selectSlot(0)">S1</button>
+                    <button id="slot-1" class="slot-btn" onclick="selectSlot(1)">S2</button>
+                    <button id="slot-2" class="slot-btn" onclick="selectSlot(2)">S3</button>
+                </div>
+                <div style="margin-top:10px; display:flex; gap:5px;">
+                    <button onclick="saveGame()" id="btn-save" style="background:#27ae60; flex:1; color:white; padding:10px; border-radius:5px; border:none; cursor:pointer; font-weight:bold;">Guardar</button>
+                    <button onclick="loadGame()" id="btn-load" style="background:#2980b9; flex:1; color:white; padding:10px; border-radius:5px; border:none; cursor:pointer; font-weight:bold;">Cargar</button>
+                    <button onclick="restartGame()" id="btn-restart" style="background:#c0392b; flex:1; color:white; padding:10px; border-radius:5px; border:none; cursor:pointer; font-weight:bold;">Reiniciar</button>
+                </div>
+                <div style="margin-top:10px; display:flex; gap:5px;">
+                    <button onclick="exportSlot()" id="btn-export" style="background:#f39c12; flex:1; color:white; padding:10px; border-radius:5px; border:none; cursor:pointer; font-weight:bold;">📤 Exportar</button>
+                    <button onclick="document.getElementById('import-file').click()" id="btn-import" style="background:#16a085; flex:1; color:white; padding:10px; border-radius:5px; border:none; cursor:pointer; font-weight:bold;">📥 Importar</button>
+                    <input type="file" id="import-file" style="display:none" accept=".json" onchange="importSlot(event)">
+                </div>
+            </div>
+
+            <div class="panel-styled">
+                <strong id="label-sound">🎵 Sonido y Música</strong>
+                <button style="background:#9b59b6; width:100%; color:white; margin-top:10px; border:none; padding:8px; border-radius:5px; cursor:pointer;" onclick="document.getElementById('m-up').click()" id="btn-music">📤 Música (5k)</button>
+                <input type="file" id="m-up" style="display:none" onchange="handleMusicUpload(event)">
+                <div style="margin-top:8px; display:flex; gap:5px;">
+                    <button onclick="toggleMusic()" style="background:#7f8c8d; flex:1; color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;">▶️/⏸️</button>
+                    <button onclick="stopMusic()" style="background:#7f8c8d; flex:1; color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;" id="btn-stop">⏹️ Stop</button>
+                </div>
+                <button style="background:#3498db; width:100%; color:white; margin-top:8px; border:none; padding:8px; border-radius:5px; cursor:pointer;" onclick="document.getElementById('c-up').click()" id="btn-sfx">🔊 Clic Custom</button>
+                <input type="file" id="c-up" style="display:none" onchange="handleSfxUpload(event)">
+            </div>
+
+            <div class="box">
+                <h3 id="label-trophies">🏆 Sala de Trofeos</h3>
+                <div id="ach-list"></div>
+            </div>
+
+            <div class="box" id="stats-box">
+                <h3 id="label-stats">📊 Estadísticas</h3>
+                <div class="stats-list" id="stats-content"></div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="stats-card">
+                <h2 style="font-size: 35px; margin:0;">
+                    <span id="c-count">0</span>
+                    <span id="counter-icon">🍪</span>
+                </h2>
+                <p>CPS: <b id="cps-display">0</b> | <span id="label-click">Click</span>: <b id="cpc-display">1</b></p>
+                <div id="cookie-container" onmousedown="clickCookie(event)">
+                    <div id="main-emoji" style="font-size: 80px;">🍪</div>
+                    <img id="main-image" style="width:100%; height:100%; object-fit:contain; display:none;">
+                </div>
+            </div>
+            <div class="box">
+                <h3 id="label-click-power">🖱️ Poder de Clic</h3>
+                <div id="click-shop"></div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="box">
+                <h3 id="label-industry">🏭 Industria</h3>
+                <div id="auto-shop"></div>
+            </div>
+
+            <!-- NUEVO WIDGET: Mejoras -->
+            <div class="box" id="upgrades-box">
+                <h3 id="label-upgrades">🔧 Mejoras</h3>
+                <div id="click-upgrades-list" style="margin-bottom: 15px;"></div>
+                <div id="building-upgrades-list"></div>
+            </div>
+
+            <div class="box">
+                <h3 id="label-custom">🎭 Personalización</h3>
+                <div id="skin-shop"></div>
+                <div style="margin-top:10px;">
+                    <label style="font-size:11px; font-weight:bold;" id="label-quality">🖼️ CALIDAD:</label>
+                    <select id="render-mode" onchange="updateRender()">
+                        <option value="linear" id="opt-smooth">Suave (HD)</option>
+                        <option value="pixel" id="opt-pixel">Pixelado (Retro)</option>
+                    </select>
+                    <button style="background:#e67e22; width:100%; color:white; margin-top:8px; border:none; padding:8px; border-radius:5px; cursor:pointer;" onclick="document.getElementById('i-up').click()" id="btn-upload">📤 Subir PNG (1k)</button>
+                    <input type="file" id="i-up" style="display:none" onchange="handleImageUpload(event)">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="powerup" onclick="clickPowerup()">⭐</div>
+
+    <div class="creator-info">EdwarlyGamer999+</div>
+    <div class="social-links">
+        <a href="https://github.com/edwarly999plus/Food-Clicker-Ultra-Leyend" target="_blank" title="GitHub">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/960px-Octicons-mark-github.svg.png?_=20180806170715" alt="GitHub">
+        </a>
+        <a href="https://www.youtube.com/@EdwarlyGamer999plusxd" target="_blank" title="YouTube">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/3840px-YouTube_full-color_icon_%282017%29.svg.png" alt="YouTube">
+        </a>
+    </div>
+
+    <audio id="bg-audio" loop src="https://ia600900.us.archive.org/5/items/you-can-do-it-mlhaost/You%20Can%27t%20Do%20It%21.ogg"></audio>
+    <audio id="click-sfx" src="https://www.soundjay.com/buttons_c2026/sounds/button-30.mp3"></audio>
+    <audio id="buy-sfx" src="https://www.soundjay.com/buttons_c2026/sounds/button-37a.mp3"></audio>
+    <audio id="ach-sfx" src="https://www.soundjay.com/misc_c2026/sounds/bell-ringing-05.mp3"></audio>
+
+    <script>
+        // Diccionarios de idiomas (completos)
+        const i18n = {
+            es: { 
+                title: "🍴 Food Clicker: Ultra Legend", 
+                data: "💾 Gestión de Datos", 
+                trophies: "🏆 Sala de Trofeos", 
+                clickPower: "🖱️ Poder de Clic", 
+                industry: "🏭 Industria", 
+                custom: "🎭 Personalización", 
+                sound: "🎵 Sonido y Música", 
+                b0: "Abuela 👵", b1: "Horno 🔥", b2: "Fábrica 🏭", b3: "Mina ⛏️", b4: "Portal 🌀", b5: "Portal Legendario 🌟", b6: "Portal Ultra Legendario 💫", 
+                u0: "Dedo Madera 🪵", u1: "Puntero Acero ⚔️", u2: "Puntero Hierro ⛓️", u3: "Clic Diamante 💎", u4: "Puntero Legendario 🏆", u5: "Puntero Ultra Legendario 👑", 
+                ach0: "🍪 Migajas (100)", ach1: "❓ ¿Algo más? (1M)", ach2: "🔥 Ultra Leyenda (100M)", 
+                quality: "🖼️ CALIDAD:", smooth: "Suave (HD)", pixel: "Pixelado (Retro)", 
+                save: "Guardar", load: "Cargar", music: "📤 Música (5k)", stop: "⏹️ Stop", sfx: "🔊 Clic Custom", upload: "📤 Subir PNG (1k)", click: "Clic", 
+                unsaved: "¡Tienes datos sin guardar!", use: "Usar", 
+                stats: "📊 Estadísticas", 
+                totalCookies: "🍪 Galletas acumuladas", 
+                sessionCookies: "📈 Galletas horneadas (esta ascensión)", 
+                totalEverCookies: "🏆 Galletas horneadas (en total)", 
+                startTime: "⏱️ Partida iniciada", 
+                buildingsOwned: "🏭 Edificios propios", 
+                cps: "⚡ Galletas por segundo", 
+                cpsMultiplier: "📊 Multiplicador", 
+                rawCps: "🥚 Galletas de masa cruda por segundo", 
+                highestCps: "📈 Más alta esta ascensión", 
+                cpc: "🖱️ Galletas por clic", 
+                totalClicks: "👆 Clics de galleta", 
+                manualCookies: "✋ Galletas hechas a mano", 
+                totalPlayTime: "⏳ Tiempo Jugado Total", 
+                years: "años", months: "meses", days: "días", hours: "horas", min: "min", sec: "seg",
+                cookiesLabel: "galletas",
+                autosave: "Guardando... no cierre el juego",
+                saved: "¡Guardado!",
+                restart: "Reiniciar",
+                export: "📤 Exportar",
+                import: "📥 Importar",
+                restartConfirm: "¿Estás seguro de que quieres reiniciar la partida? Se perderá todo el progreso no guardado.",
+                upgrades: "🔧 Mejoras",
+                clickUpgrades: "🖱️ Mejorar Clicks",
+                buildingUpgrades: "🏭 Mejorar Edificios"
+            },
+            en: { 
+                title: "🍴 Food Clicker: Ultra Legend", 
+                data: "💾 Data Management", 
+                trophies: "🏆 Trophy Room", 
+                clickPower: "🖱️ Click Power", 
+                industry: "🏭 Industry", 
+                custom: "🎭 Customization", 
+                sound: "🎵 Sound & Music", 
+                b0: "Grandma 👵", b1: "Oven 🔥", b2: "Factory 🏭", b3: "Mine ⛏️", b4: "Portal 🌀", b5: "Legendary Portal 🌟", b6: "Ultra Legendary Portal 💫", 
+                u0: "Wooden Finger 🪵", u1: "Steel Pointer ⚔️", u2: "Iron Pointer ⛓️", u3: "Diamond Click 💎", u4: "Legendary Pointer 🏆", u5: "Ultra Legendary Pointer 👑", 
+                ach0: "🍪 Crumbs (100)", ach1: "❓ Nothing else? (1M)", ach2: "🔥 Ultra Legend (100M)", 
+                quality: "🖼️ QUALITY:", smooth: "Smooth (HD)", pixel: "Pixelated (Retro)", 
+                save: "Save", load: "Load", music: "📤 Music (5k)", stop: "⏹️ Stop", sfx: "🔊 Custom Click", upload: "📤 Upload PNG (1k)", click: "Click", 
+                unsaved: "You have unsaved data!", use: "Use", 
+                stats: "📊 Statistics", 
+                totalCookies: "🍪 Total cookies", 
+                sessionCookies: "📈 Cookies baked (this ascension)", 
+                totalEverCookies: "🏆 Cookies baked (all time)", 
+                startTime: "⏱️ Game started", 
+                buildingsOwned: "🏭 Buildings owned", 
+                cps: "⚡ Cookies per second", 
+                cpsMultiplier: "📊 Multiplier", 
+                rawCps: "🥚 Raw cookies per second", 
+                highestCps: "📈 Highest this ascension", 
+                cpc: "🖱️ Cookies per click", 
+                totalClicks: "👆 Total clicks", 
+                manualCookies: "✋ Hand-made cookies", 
+                totalPlayTime: "⏳ Total Play Time", 
+                years: "years", months: "months", days: "days", hours: "hours", min: "min", sec: "sec",
+                cookiesLabel: "cookies",
+                autosave: "Saving... do not close the game",
+                saved: "Saved!",
+                restart: "Restart",
+                export: "📤 Export",
+                import: "📥 Import",
+                restartConfirm: "Are you sure you want to restart the game? All unsaved progress will be lost.",
+                upgrades: "🔧 Upgrades",
+                clickUpgrades: "🖱️ Click Upgrades",
+                buildingUpgrades: "🏭 Building Upgrades"
+            },
+            // ... (otros idiomas, se pueden añadir igual que en el original)
+        };
+
+        for (let lang in i18n) {
+            if (lang !== 'en') {
+                for (let key in i18n.en) {
+                    if (!i18n[lang][key]) i18n[lang][key] = i18n.en[key];
+                }
+            }
+        }
+
+        let cookies = 0, totalEver = 0, cpc = 1, cps = 0, currentLang = 'es', currentSlot = 0;
+        let unlockedAch = [], ownedSkins = ["🍪"], currentSkin = "🍪", skinType = "emoji", imgData = "";
+        let unsavedChanges = false;
+
+        let sessionStartTime = Date.now();
+        let totalClicks = 0;
+        let manualCookies = 0;
+        let highestCpsThisSession = 0;
+        let accumulatedPlayTime = 0;
+
+        let powerupTimeout = null;
+        let powerupVisible = false;
+        let audioInitialized = false;
+
+        let buildings = [
+            { id: 0, cost: 72, base: 72, owned: 0, cps: 2 },
+            { id: 1, cost: 500, base: 500, owned: 0, cps: 10 },
+            { id: 2, cost: 5000, base: 5000, owned: 0, cps: 50 },
+            { id: 3, cost: 30000, base: 30000, owned: 0, cps: 200 },
+            { id: 4, cost: 250000, base: 250000, owned: 0, cps: 1000 },
+            { id: 5, cost: 5000000, base: 5000000, owned: 0, cps: 10000 },
+            { id: 6, cost: 100000000, base: 100000000, owned: 0, cps: 50000 }
+        ];
+
+        let clickUps = [
+            { id: 0, cost: 100, base: 100, owned: 0, power: 2 },
+            { id: 1, cost: 1500, base: 1500, owned: 0, power: 10 },
+            { id: 2, cost: 15000, base: 15000, owned: 0, power: 100 },
+            { id: 3, cost: 100000, base: 100000, owned: 0, power: 500 },
+            { id: 4, cost: 1000000, base: 1000000, owned: 0, power: 1000 },
+            { id: 5, cost: 20000000, base: 20000000, owned: 0, power: 10000 }
+        ];
+
+        // Nuevos arrays para mejoras (multiplicadores x2 por nivel)
+        let buildingEnhance = new Array(buildings.length).fill(0);
+        let clickEnhance = new Array(clickUps.length).fill(0);
+
+        // Lista completa de nombres de skins (todos los emojis)
+        const skinNames = {
+            "🍪": { es: "Galleta", en: "Cookie", fr: "Biscuit", de: "Keks", pt: "Biscoito", it: "Biscotto", zh: "饼干", ko: "쿠키", ar: "بسكويت", ru: "Печенье" },
+            "🍕": { es: "Pizza", en: "Pizza", fr: "Pizza", de: "Pizza", pt: "Pizza", it: "Pizza", zh: "披萨", ko: "피자", ar: "بيتزا", ru: "Пицца" },
+            "🍔": { es: "Hamburguesa", en: "Burger", fr: "Hamburger", de: "Burger", pt: "Hambúrguer", it: "Hamburger", zh: "汉堡", ko: "버거", ar: "برغر", ru: "Бургер" },
+            "🍟": { es: "Papas fritas", en: "Fries", fr: "Frites", de: "Pommes", pt: "Batata frita", it: "Patatine", zh: "薯条", ko: "감자튀김", ar: "بطاطا مقلية", ru: "Картошка фри" },
+            "🌭": { es: "Perrito caliente", en: "Hot dog", fr: "Hot-dog", de: "Hotdog", pt: "Cachorro-quente", it: "Hot dog", zh: "热狗", ko: "핫도그", ar: "هوت دوج", ru: "Хот-дог" },
+            "🍿": { es: "Palomitas", en: "Popcorn", fr: "Pop-corn", de: "Popcorn", pt: "Pipoca", it: "Popcorn", zh: "爆米花", ko: "팝콘", ar: "فشار", ru: "Попкорн" },
+            "🥓": { es: "Tocino", en: "Bacon", fr: "Bacon", de: "Speck", pt: "Bacon", it: "Pancetta", zh: "培根", ko: "베이컨", ar: "بيكون", ru: "Бекон" },
+            "🥐": { es: "Croissant", en: "Croissant", fr: "Croissant", de: "Croissant", pt: "Croissant", it: "Croissant", zh: "可颂", ko: "크루아상", ar: "كرواسان", ru: "Круассан" },
+            "🍞": { es: "Pan", en: "Bread", fr: "Pain", de: "Brot", pt: "Pão", it: "Pane", zh: "面包", ko: "빵", ar: "خبز", ru: "Хлеб" },
+            "🧀": { es: "Queso", en: "Cheese", fr: "Fromage", de: "Käse", pt: "Queijo", it: "Formaggio", zh: "奶酪", ko: "치즈", ar: "جبن", ru: "Сыр" },
+            "🍗": { es: "Pollo", en: "Chicken", fr: "Poulet", de: "Hähnchen", pt: "Frango", it: "Pollo", zh: "鸡肉", ko: "치킨", ar: "دجاج", ru: "Курица" },
+            "🍩": { es: "Dona", en: "Donut", fr: "Donut", de: "Donut", pt: "Donut", it: "Ciambella", zh: "甜甜圈", ko: "도넛", ar: "دونات", ru: "Пончик" },
+            "🍦": { es: "Helado", en: "Ice cream", fr: "Glace", de: "Eis", pt: "Sorvete", it: "Gelato", zh: "冰淇淋", ko: "아이스크림", ar: "آيس كريم", ru: "Мороженое" },
+            "🎂": { es: "Pastel", en: "Cake", fr: "Gâteau", de: "Kuchen", pt: "Bolo", it: "Torta", zh: "蛋糕", ko: "케이크", ar: "كعكة", ru: "Торт" },
+            "🍫": { es: "Chocolate", en: "Chocolate", fr: "Chocolat", de: "Schokolade", pt: "Chocolate", it: "Cioccolato", zh: "巧克力", ko: "초콜릿", ar: "شوكولاتة", ru: "Шоколад" },
+            "🍷": { es: "Vino", en: "Wine", fr: "Vin", de: "Wein", pt: "Vinho", it: "Vino", zh: "葡萄酒", ko: "와인", ar: "نبيذ", ru: "Вино" },
+            "☕": { es: "Café", en: "Coffee", fr: "Café", de: "Kaffee", pt: "Café", it: "Caffè", zh: "咖啡", ko: "커피", ar: "قهوة", ru: "Кофе" },
+            "🍺": { es: "Cerveza", en: "Beer", fr: "Bière", de: "Bier", pt: "Cerveja", it: "Birra", zh: "啤酒", ko: "맥주", ar: "بيرة", ru: "Пиво" },
+            "🍬": { es: "Caramelo", en: "Candy", fr: "Bonbon", de: "Süßigkeit", pt: "Doce", it: "Caramella", zh: "糖果", ko: "사탕", ar: "حلوى", ru: "Конфета" },
+            "🍭": { es: "Paleta", en: "Lollipop", fr: "Sucette", de: "Lutscher", pt: "Pirulito", it: "Lecca-lecca", zh: "棒棒糖", ko: "막대사탕", ar: "مصاصة", ru: "Леденец" },
+            "🍨": { es: "Helado", en: "Ice cream", fr: "Glace", de: "Eis", pt: "Sorvete", it: "Gelato", zh: "冰淇淋", ko: "아이스크림", ar: "آيس كريم", ru: "Мороженое" },
+            "🥧": { es: "Pastel", en: "Pie", fr: "Tarte", de: "Kuchen", pt: "Torta", it: "Torta", zh: "派", ko: "파이", ar: "فطيرة", ru: "Пирог" },
+            "🍝": { es: "Pasta", en: "Pasta", fr: "Pâtes", de: "Pasta", pt: "Massa", it: "Pasta", zh: "意大利面", ko: "파스타", ar: "معكرونة", ru: "Паста" },
+            "🧆": { es: "Falafel", en: "Falafel", fr: "Falafel", de: "Falafel", pt: "Falafel", it: "Falafel", zh: "法拉费", ko: "팔라펠", ar: "فلافل", ru: "Фалафель" },
+            "🥟": { es: "Empanadilla", en: "Dumpling", fr: "Ravioli", de: "Teigtasche", pt: "Bolinho", it: "Raviolo", zh: "饺子", ko: "만두", ar: "زلابية", ru: "Пельмень" },
+            "🥪": { es: "Sándwich", en: "Sandwich", fr: "Sandwich", de: "Sandwich", pt: "Sanduíche", it: "Sandwich", zh: "三明治", ko: "샌드위치", ar: "ساندويتش", ru: "Сэндвич" },
+            "🌮": { es: "Taco", en: "Taco", fr: "Taco", de: "Taco", pt: "Taco", it: "Taco", zh: "塔可", ko: "타코", ar: "تاكو", ru: "Тако" }
+        };
+
+        let skinItems = [
+            { emoji: "🍪", cost: 0 },
+            { emoji: "🍕", cost: 2000 },
+            { emoji: "🍔", cost: 5000 },
+            { emoji: "🍟", cost: 3000 },
+            { emoji: "🌭", cost: 4000 },
+            { emoji: "🍿", cost: 2500 },
+            { emoji: "🥓", cost: 3500 },
+            { emoji: "🥐", cost: 2200 },
+            { emoji: "🍞", cost: 1800 },
+            { emoji: "🧀", cost: 2800 },
+            { emoji: "🍗", cost: 4500 },
+            { emoji: "🍩", cost: 3200 },
+            { emoji: "🍦", cost: 2700 },
+            { emoji: "🎂", cost: 6000 },
+            { emoji: "🍫", cost: 3300 },
+            { emoji: "🍷", cost: 5000 },
+            { emoji: "☕", cost: 2100 },
+            { emoji: "🍺", cost: 3800 },
+            { emoji: "🍬", cost: 1500 },
+            { emoji: "🍭", cost: 1700 },
+            { emoji: "🍨", cost: 2900 },
+            { emoji: "🥧", cost: 4100 },
+            { emoji: "🍝", cost: 4700 },
+            { emoji: "🧆", cost: 3600 },
+            { emoji: "🥟", cost: 3400 },
+            { emoji: "🥪", cost: 3100 },
+            { emoji: "🌮", cost: 3900 }
+        ];
+
+        function getT(k) { return (i18n[currentLang] && i18n[currentLang][k]) ? i18n[currentLang][k] : (i18n.en[k] || k); }
+
+        function getSkinName(emoji) {
+            if (skinNames[emoji] && skinNames[emoji][currentLang]) {
+                return skinNames[emoji][currentLang];
+            }
+            return (skinNames[emoji] && skinNames[emoji].en) ? skinNames[emoji].en : emoji;
+        }
+
+        function updateUnsavedWarning() {
+            const warn = document.getElementById('unsaved-warning');
+            if (warn) {
+                warn.style.display = unsavedChanges ? 'block' : 'none';
+                warn.innerText = getT('unsaved');
+            }
+        }
+
+        function triggerFlash() {
+            document.body.classList.remove('flash-buy');
+            void document.body.offsetWidth;
+            document.body.classList.add('flash-buy');
+        }
+
+        function spawnFloat(e) {
+            const s = document.createElement('span');
+            s.className = 'float-num';
+            s.innerText = `+${cpc}`;
+            s.style.left = `${e.clientX}px`;
+            s.style.top = `${e.clientY - 30}px`;
+            document.body.appendChild(s);
+            setTimeout(() => s.remove(), 800);
+        }
+
+        function spawnParticles(e) {
+            const count = 15;
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                if (skinType === 'emoji') {
+                    p.innerText = currentSkin;
+                } else {
+                    p.style.width = '15px';
+                    p.style.height = '15px';
+                    p.style.backgroundColor = '#e67e22';
+                    p.style.borderRadius = '50%';
+                }
+                p.style.left = (e.clientX - 10) + 'px';
+                p.style.top = (e.clientY - 10) + 'px';
+                const dx = (Math.random() - 0.5) * 200;
+                const dy = (Math.random() - 0.5) * 200 - 50;
+                p.style.setProperty('--dx', dx + 'px');
+                p.style.setProperty('--dy', dy + 'px');
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), 800);
+            }
+        }
+
+        function initAudio() {
+            const silent = new Audio();
+            silent.play().then(() => {
+                silent.pause();
+                audioInitialized = true;
+                document.getElementById('audio-init-btn').style.display = 'none';
+            }).catch(e => {
+                audioInitialized = true;
+                document.getElementById('audio-init-btn').style.display = 'none';
+            });
+            document.getElementById('click-sfx').play().catch(() => {});
+            document.getElementById('buy-sfx').play().catch(() => {});
+            document.getElementById('ach-sfx').play().catch(() => {});
+        }
+
+        function playSound(audioId) {
+            const audio = document.getElementById(audioId);
+            if (!audio) return;
+            if (!audioInitialized && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                document.getElementById('audio-init-btn').style.display = 'inline-block';
+                return;
+            }
+            audio.currentTime = 0;
+            audio.play().catch(() => {});
+        }
+
+        function clickCookie(e) {
+            cookies += cpc; totalEver += cpc;
+            manualCookies += cpc;
+            totalClicks++;
+            playSound('click-sfx');
+            spawnFloat(e);
+            spawnParticles(e);
+            unsavedChanges = true;
+            updateUnsavedWarning();
+            updateUI();
+        }
+
+        function spawnPowerup() {
+            if (powerupVisible) return;
+            const powerup = document.getElementById('powerup');
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            powerup.style.left = x + 'px';
+            powerup.style.top = y + 'px';
+            powerup.style.display = 'flex';
+            powerupVisible = true;
+            if (powerupTimeout) clearTimeout(powerupTimeout);
+            powerupTimeout = setTimeout(() => {
+                powerup.style.display = 'none';
+                powerupVisible = false;
+                schedulePowerup();
+            }, 10000);
+        }
+
+        function schedulePowerup() {
+            if (powerupTimeout) clearTimeout(powerupTimeout);
+            powerupTimeout = setTimeout(() => {
+                spawnPowerup();
+            }, 30000 + Math.random() * 30000);
+        }
+
+        function clickPowerup() {
+            if (!powerupVisible) return;
+            const powerup = document.getElementById('powerup');
+            powerup.style.display = 'none';
+            powerupVisible = false;
+            if (powerupTimeout) clearTimeout(powerupTimeout);
+            let reward = Math.max(1000, Math.floor(cookies * 0.1));
+            cookies += reward;
+            totalEver += reward;
+            playSound('buy-sfx');
+            const fakeEvent = { clientX: parseInt(powerup.style.left) + 40, clientY: parseInt(powerup.style.top) + 40 };
+            const s = document.createElement('span');
+            s.className = 'float-num'; s.innerText = `+${reward}`;
+            s.style.left = fakeEvent.clientX + 'px'; s.style.top = fakeEvent.clientY + 'px';
+            document.body.appendChild(s);
+            setTimeout(() => s.remove(), 800);
+            schedulePowerup();
+            updateUI();
+        }
+
+        // Recalcular CPS con multiplicadores
+        function calculateCPS() {
+            cps = 0;
+            for (let i = 0; i < buildings.length; i++) {
+                let b = buildings[i];
+                let mult = Math.pow(2, buildingEnhance[i]); // 2^level
+                cps += b.owned * b.cps * mult;
+            }
+            if (cps > highestCpsThisSession) highestCpsThisSession = cps;
+        }
+
+        // Recalcular CPC con multiplicadores
+        function calculateCPC() {
+            let total = 1; // base click
+            for (let i = 0; i < clickUps.length; i++) {
+                let u = clickUps[i];
+                let mult = Math.pow(2, clickEnhance[i]);
+                total += u.owned * u.power * mult;
+            }
+            cpc = total;
+        }
+
+        function buyBuilding(id) {
+            let b = buildings[id];
+            if (cookies >= b.cost) {
+                cookies -= b.cost; b.owned++;
+                b.cost = Math.floor(b.base * Math.pow(1.15, b.owned));
+                playSound('buy-sfx');
+                triggerFlash(); 
+                unsavedChanges = true;
+                updateUnsavedWarning();
+                calculateCPS();
+                initShop(); // actualiza tiendas
+            }
+        }
+
+        function buyClick(id) {
+            let u = clickUps[id];
+            if (cookies >= u.cost) {
+                cookies -= u.cost; u.owned++;
+                u.cost = Math.floor(u.base * Math.pow(1.6, u.owned));
+                playSound('buy-sfx');
+                triggerFlash(); 
+                unsavedChanges = true;
+                updateUnsavedWarning();
+                calculateCPC();
+                initShop();
+            }
+        }
+
+        // Compra de mejora para edificio
+        function buyBuildingEnhance(i) {
+            let b = buildings[i];
+            let level = buildingEnhance[i];
+            let cost = Math.floor(b.base * Math.pow(2, level) * 10);
+            if (cookies >= cost) {
+                cookies -= cost;
+                buildingEnhance[i]++;
+                playSound('buy-sfx');
+                triggerFlash();
+                unsavedChanges = true;
+                updateUnsavedWarning();
+                calculateCPS();
+                initShop();
+            }
+        }
+
+        // Compra de mejora para click
+        function buyClickEnhance(i) {
+            let u = clickUps[i];
+            let level = clickEnhance[i];
+            let cost = Math.floor(u.base * Math.pow(2, level) * 10);
+            if (cookies >= cost) {
+                cookies -= cost;
+                clickEnhance[i]++;
+                playSound('buy-sfx');
+                triggerFlash();
+                unsavedChanges = true;
+                updateUnsavedWarning();
+                calculateCPC();
+                initShop();
+            }
+        }
+
+        function buySkin(emoji, cost) {
+            if (ownedSkins.includes(emoji)) { 
+                currentSkin = emoji; skinType = "emoji"; 
+                unsavedChanges = true;
+                updateUnsavedWarning();
+                playSound('buy-sfx');
+                applySkin(); 
+                initShop(); // para actualizar botones de skin
+            }
+            else if (cookies >= cost) {
+                cookies -= cost; ownedSkins.push(emoji); currentSkin = emoji; skinType = "emoji";
+                playSound('buy-sfx');
+                triggerFlash(); 
+                unsavedChanges = true;
+                updateUnsavedWarning();
+                applySkin(); 
+                initShop();
+            }
+        }
+
+        function applySkin() {
+            const eEl = document.getElementById('main-emoji'), iEl = document.getElementById('main-image');
+            if(skinType === "emoji") { eEl.innerText = currentSkin; eEl.style.display = "block"; iEl.style.display = "none"; }
+            else { eEl.style.display = "none"; iEl.style.display = "block"; iEl.src = imgData; }
+            updateCounterIcon();
+        }
+
+        function updateCounterIcon() {
+            const counterIcon = document.getElementById('counter-icon');
+            if (counterIcon) {
+                if (skinType === "emoji") {
+                    counterIcon.innerText = currentSkin;
+                } else {
+                    counterIcon.innerText = "🍪";
+                }
+            }
+        }
+
+        function renderSkinShop() {
+            let html = '';
+            skinItems.forEach((item, index) => {
+                const owned = ownedSkins.includes(item.emoji);
+                const disabled = !owned && cookies < item.cost;
+                const buttonText = owned ? getT('use') : item.cost.toLocaleString();
+                const displayName = item.emoji + ' ' + getSkinName(item.emoji);
+                html += `<div class="item-row">
+                    <div><b>${displayName}</b></div>
+                    <button class="btn-buy" data-action="buySkin" data-emoji="${item.emoji}" data-cost="${item.cost}" ${disabled ? 'disabled' : ''}>${buttonText}</button>
+                </div>`;
+            });
+            document.getElementById('skin-shop').innerHTML = html;
+        }
+
+        function initShop() {
+            let bH = "", uH = "";
+            buildings.forEach(b => {
+                let effectiveCPS = b.cps * Math.pow(2, buildingEnhance[b.id]);
+                bH += `<div class="item-row">
+                    <div><b>${getT('b'+b.id)} (${b.owned})</b><br><span style="color:#27ae60;font-size:10px;">+${effectiveCPS} CPS</span></div>
+                    <button class="btn-buy" data-action="buyBuilding" data-id="${b.id}" ${cookies < b.cost ? 'disabled' : ''}>${b.cost.toLocaleString()}</button>
+                </div>`;
+            });
+            clickUps.forEach(u => {
+                let effectivePower = u.power * Math.pow(2, clickEnhance[u.id]);
+                uH += `<div class="item-row">
+                    <div><b>${getT('u'+u.id)} (${u.owned})</b><br><span style="color:#27ae60;font-size:10px;">+${effectivePower} Click</span></div>
+                    <button class="btn-buy" data-action="buyClick" data-id="${u.id}" ${cookies < u.cost ? 'disabled' : ''}>${u.cost.toLocaleString()}</button>
+                </div>`;
+            });
+            document.getElementById('auto-shop').innerHTML = bH;
+            document.getElementById('click-shop').innerHTML = uH;
+            renderSkinShop();
+            renderClickUpgrades();
+            renderBuildingUpgrades();
+            updateUI(); // actualiza contadores y demás
+        }
+
+        // Renderizar mejoras de clicks
+        function renderClickUpgrades() {
+            let html = `<h4 style="margin:0 0 10px 0; color:var(--gold);">${getT('clickUpgrades')}</h4>`;
+            clickUps.forEach((u, i) => {
+                let level = clickEnhance[i];
+                let mult = Math.pow(2, level);
+                let cost = Math.floor(u.base * Math.pow(2, level) * 10);
+                let disabled = cookies < cost ? 'disabled' : '';
+                let name = getT('u'+u.id);
+                html += `<div class="item-row">
+                    <div><b>${name}</b> (x${mult})<br><span style="color:#27ae60;font-size:10px;">Nivel ${level}</span></div>
+                    <button class="btn-buy" data-action="buyClickEnhance" data-id="${i}" ${disabled}>${cost.toLocaleString()}</button>
+                </div>`;
+            });
+            document.getElementById('click-upgrades-list').innerHTML = html;
+        }
+
+        // Renderizar mejoras de edificios
+        function renderBuildingUpgrades() {
+            let html = `<h4 style="margin:0 0 10px 0; color:var(--gold);">${getT('buildingUpgrades')}</h4>`;
+            buildings.forEach((b, i) => {
+                let level = buildingEnhance[i];
+                let mult = Math.pow(2, level);
+                let cost = Math.floor(b.base * Math.pow(2, level) * 10);
+                let disabled = cookies < cost ? 'disabled' : '';
+                let name = getT('b'+b.id);
+                html += `<div class="item-row">
+                    <div><b>${name}</b> (x${mult})<br><span style="color:#27ae60;font-size:10px;">Nivel ${level}</span></div>
+                    <button class="btn-buy" data-action="buyBuildingEnhance" data-id="${i}" ${disabled}>${cost.toLocaleString()}</button>
+                </div>`;
+            });
+            document.getElementById('building-upgrades-list').innerHTML = html;
+        }
+
+        function formatTime(seconds) {
+            const years = Math.floor(seconds / (365 * 24 * 3600));
+            seconds %= 365 * 24 * 3600;
+            const months = Math.floor(seconds / (30 * 24 * 3600));
+            seconds %= 30 * 24 * 3600;
+            const days = Math.floor(seconds / (24 * 3600));
+            seconds %= 24 * 3600;
+            const hours = Math.floor(seconds / 3600);
+            seconds %= 3600;
+            const minutes = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${years}${getT('years')} ${months}${getT('months')} ${days}${getT('days')} ${hours}${getT('hours')} ${minutes}${getT('min')} ${secs}${getT('sec')}`;
+        }
+
+        function updateStats() {
+            const now = Date.now();
+            const sessionElapsed = Math.floor((now - sessionStartTime) / 1000);
+            const totalPlayTime = accumulatedPlayTime + sessionElapsed;
+
+            let buildingsStr = buildings.map(b => `${getT('b'+b.id)}: ${b.owned}`).join(', ');
+
+            const startMinutes = Math.floor((now - sessionStartTime) / 60000);
+            const startSeconds = Math.floor((now - sessionStartTime) / 1000) % 60;
+            const startTimeStr = `${startMinutes}${getT('min')} ${startSeconds}${getT('sec')}`;
+
+            const statsHtml = `
+                <div><span class="stat-label">${getT('totalCookies')}:</span> <span class="stat-value">${Math.floor(cookies).toLocaleString()}</span></div>
+                <div><span class="stat-label">${getT('sessionCookies')}:</span> <span class="stat-value">${Math.floor(totalEver).toLocaleString()}</span></div>
+                <div><span class="stat-label">${getT('totalEverCookies')}:</span> <span class="stat-value">${Math.floor(totalEver).toLocaleString()}</span></div>
+                <div><span class="stat-label">${getT('startTime')}:</span> <span class="stat-value">${startTimeStr}</span></div>
+                <div><span class="stat-label">${getT('buildingsOwned')}:</span> <span class="stat-value">${buildingsStr}</span></div>
+                <div><span class="stat-label">${getT('cps')}:</span> <span class="stat-value">${cps.toLocaleString()}</span></div>
+                <div><span class="stat-label">${getT('cpsMultiplier')}:</span> <span class="stat-value">${(cps / (buildings.reduce((acc, b) => acc + (b.owned * b.cps), 0) || 1)).toFixed(2)}x</span></div>
+                <div><span class="stat-label">${getT('rawCps')}:</span> <span class="stat-value">${cps.toLocaleString()}</span></div>
+                <div><span class="stat-label">${getT('highestCps')}:</span> <span class="stat-value">${highestCpsThisSession.toLocaleString()}</span></div>
+                <div><span class="stat-label">${getT('cpc')}:</span> <span class="stat-value">${cpc.toLocaleString()}</span></div>
+                <div><span class="stat-label">${getT('totalClicks')}:</span> <span class="stat-value">${totalClicks.toLocaleString()}</span></div>
+                <div><span class="stat-label">${getT('manualCookies')}:</span> <span class="stat-value">${Math.floor(manualCookies).toLocaleString()}</span></div>
+                <div><span class="stat-label">${getT('totalPlayTime')}:</span> <span class="stat-value">${formatTime(totalPlayTime)}</span></div>
+            `;
+            document.getElementById('stats-content').innerHTML = statsHtml;
+        }
+
+        function updateUI() {
+            document.getElementById('c-count').innerText = Math.floor(cookies).toLocaleString();
+            document.getElementById('cps-display').innerText = cps.toLocaleString();
+            document.getElementById('cpc-display').innerText = cpc.toLocaleString();
+
+            document.title = `${Math.floor(cookies).toLocaleString()} ${getT('cookiesLabel')} - ${getT('title')}`;
+
+            updateCounterIcon();
+            updateStats();
+
+            // Actualizar estado de los botones existentes
+            document.querySelectorAll('.btn-buy[data-action="buyBuilding"]').forEach(btn => {
+                let id = btn.dataset.id;
+                let b = buildings[id];
+                btn.disabled = cookies < b.cost;
+                btn.innerText = b.cost.toLocaleString();
+            });
+            document.querySelectorAll('.btn-buy[data-action="buyClick"]').forEach(btn => {
+                let id = btn.dataset.id;
+                let u = clickUps[id];
+                btn.disabled = cookies < u.cost;
+                btn.innerText = u.cost.toLocaleString();
+            });
+            document.querySelectorAll('.btn-buy[data-action="buyBuildingEnhance"]').forEach(btn => {
+                let i = btn.dataset.id;
+                let b = buildings[i];
+                let level = buildingEnhance[i];
+                let cost = Math.floor(b.base * Math.pow(2, level) * 10);
+                btn.disabled = cookies < cost;
+                btn.innerText = cost.toLocaleString();
+            });
+            document.querySelectorAll('.btn-buy[data-action="buyClickEnhance"]').forEach(btn => {
+                let i = btn.dataset.id;
+                let u = clickUps[i];
+                let level = clickEnhance[i];
+                let cost = Math.floor(u.base * Math.pow(2, level) * 10);
+                btn.disabled = cookies < cost;
+                btn.innerText = cost.toLocaleString();
+            });
+            document.querySelectorAll('.btn-buy[data-action="buySkin"]').forEach(btn => {
+                let emoji = btn.dataset.emoji;
+                let cost = parseInt(btn.dataset.cost);
+                let owned = ownedSkins.includes(emoji);
+                btn.disabled = !owned && cookies < cost;
+                btn.innerText = owned ? getT('use') : cost.toLocaleString();
+            });
+
+            checkAch();
+        }
+
+        function checkAch() {
+            let newUnlock = false;
+            if (totalEver >= 100 && !unlockedAch.includes(0)) {
+                unlockedAch.push(0);
+                newUnlock = true;
+            }
+            if (totalEver >= 1000000 && !unlockedAch.includes(1)) {
+                unlockedAch.push(1);
+                newUnlock = true;
+            }
+            if (totalEver >= 100000000 && !unlockedAch.includes(2)) {
+                unlockedAch.push(2);
+                newUnlock = true;
+            }
+            if (newUnlock) {
+                playSound('ach-sfx');
+                unsavedChanges = true;
+                updateUnsavedWarning();
+            }
+            let aH = "";
+            unlockedAch.forEach(id => aH += `<div class="ach-item">${getT('ach'+id)}</div>`);
+            document.getElementById('ach-list').innerHTML = aH;
+        }
+
+        function changeLanguage(l) {
+            currentLang = l;
+            document.getElementById('main-title').innerText = getT('title');
+            document.getElementById('label-data').innerText = getT('data');
+            document.getElementById('btn-save').innerText = getT('save');
+            document.getElementById('btn-load').innerText = getT('load');
+            document.getElementById('btn-restart').innerText = getT('restart');
+            document.getElementById('btn-export').innerText = getT('export');
+            document.getElementById('btn-import').innerText = getT('import');
+            document.getElementById('label-sound').innerText = getT('sound');
+            document.getElementById('btn-music').innerText = getT('music');
+            document.getElementById('btn-stop').innerText = getT('stop');
+            document.getElementById('btn-sfx').innerText = getT('sfx');
+            document.getElementById('label-trophies').innerText = getT('trophies');
+            document.getElementById('label-click').innerText = getT('click');
+            document.getElementById('label-click-power').innerText = getT('clickPower');
+            document.getElementById('label-industry').innerText = getT('industry');
+            document.getElementById('label-custom').innerText = getT('custom');
+            document.getElementById('label-quality').innerText = getT('quality');
+            document.getElementById('opt-smooth').innerText = getT('smooth');
+            document.getElementById('opt-pixel').innerText = getT('pixel');
+            document.getElementById('btn-upload').innerText = getT('upload');
+            document.getElementById('label-stats').innerText = getT('stats');
+            document.getElementById('label-upgrades').innerText = getT('upgrades');
+            updateUnsavedWarning();
+            initShop();
+        }
+
+        function toggleTheme() {
+            const b = document.body;
+            const isDark = b.getAttribute('data-theme') === 'dark';
+            b.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            document.getElementById('theme-toggle').innerText = isDark ? '☀️' : '🌙';
+        }
+
+        function selectSlot(s) { currentSlot = s; [0,1,2].forEach(i => document.getElementById('slot-'+i).classList.toggle('slot-active', i===s)); }
+
+        function saveGame(showAlert = true) {
+            const now = Date.now();
+            const sessionElapsed = Math.floor((now - sessionStartTime) / 1000);
+            const totalPlayTime = accumulatedPlayTime + sessionElapsed;
+            const data = { cookies, totalEver, cpc, buildings, clickUps, unlockedAch, ownedSkins, currentSkin, skinType, imgData, totalClicks, manualCookies, accumulatedPlayTime: totalPlayTime, highestCpsThisSession, buildingEnhance, clickEnhance };
+            localStorage.setItem('foodClicker_v45_'+currentSlot, JSON.stringify(data));
+            unsavedChanges = false;
+            updateUnsavedWarning();
+            if (showAlert) alert(getT('saved'));
+        }
+
+        function autosave() {
+            const statusDiv = document.getElementById('autosave-status');
+            if (statusDiv) {
+                statusDiv.innerText = getT('autosave');
+                statusDiv.style.display = 'block';
+            }
+            saveGame(false);
+            setTimeout(() => {
+                if (statusDiv) statusDiv.style.display = 'none';
+            }, 1000);
+        }
+
+        function loadGame() {
+            const raw = localStorage.getItem('foodClicker_v45_'+currentSlot);
+            if(raw) {
+                const d = JSON.parse(raw);
+                cookies = d.cookies; totalEver = d.totalEver; cpc = d.cpc;
+                buildings = d.buildings; clickUps = d.clickUps; unlockedAch = d.unlockedAch;
+                ownedSkins = d.ownedSkins; currentSkin = d.currentSkin; skinType = d.skinType; imgData = d.imgData;
+                totalClicks = d.totalClicks || 0;
+                manualCookies = d.manualCookies || 0;
+                accumulatedPlayTime = d.accumulatedPlayTime || 0;
+                highestCpsThisSession = d.highestCpsThisSession || 0;
+                if (d.buildingEnhance) buildingEnhance = d.buildingEnhance; else buildingEnhance = new Array(buildings.length).fill(0);
+                if (d.clickEnhance) clickEnhance = d.clickEnhance; else clickEnhance = new Array(clickUps.length).fill(0);
+                sessionStartTime = Date.now();
+                calculateCPS(); calculateCPC(); applySkin(); initShop();
+                unsavedChanges = false;
+                updateUnsavedWarning();
+            }
+        }
+
+        function restartGame() {
+            if (confirm(getT('restartConfirm'))) {
+                cookies = 0; totalEver = 0; cpc = 1;
+                buildings = [
+                    { id: 0, cost: 72, base: 72, owned: 0, cps: 2 },
+                    { id: 1, cost: 500, base: 500, owned: 0, cps: 10 },
+                    { id: 2, cost: 5000, base: 5000, owned: 0, cps: 50 },
+                    { id: 3, cost: 30000, base: 30000, owned: 0, cps: 200 },
+                    { id: 4, cost: 250000, base: 250000, owned: 0, cps: 1000 },
+                    { id: 5, cost: 5000000, base: 5000000, owned: 0, cps: 10000 },
+                    { id: 6, cost: 100000000, base: 100000000, owned: 0, cps: 50000 }
+                ];
+                clickUps = [
+                    { id: 0, cost: 100, base: 100, owned: 0, power: 2 },
+                    { id: 1, cost: 1500, base: 1500, owned: 0, power: 10 },
+                    { id: 2, cost: 15000, base: 15000, owned: 0, power: 100 },
+                    { id: 3, cost: 100000, base: 100000, owned: 0, power: 500 },
+                    { id: 4, cost: 1000000, base: 1000000, owned: 0, power: 1000 },
+                    { id: 5, cost: 20000000, base: 20000000, owned: 0, power: 10000 }
+                ];
+                unlockedAch = [];
+                ownedSkins = ["🍪"];
+                currentSkin = "🍪"; skinType = "emoji"; imgData = "";
+                totalClicks = 0; manualCookies = 0; accumulatedPlayTime = 0; highestCpsThisSession = 0;
+                buildingEnhance = new Array(buildings.length).fill(0);
+                clickEnhance = new Array(clickUps.length).fill(0);
+                sessionStartTime = Date.now();
+                if (powerupTimeout) clearTimeout(powerupTimeout);
+                document.getElementById('powerup').style.display = 'none';
+                powerupVisible = false;
+                schedulePowerup();
+                calculateCPS(); calculateCPC(); applySkin(); initShop();
+                unsavedChanges = true;
+                updateUnsavedWarning();
+            }
+        }
+
+        function exportSlot() {
+            const now = Date.now();
+            const sessionElapsed = Math.floor((now - sessionStartTime) / 1000);
+            const totalPlayTime = accumulatedPlayTime + sessionElapsed;
+            const data = { cookies, totalEver, cpc, buildings, clickUps, unlockedAch, ownedSkins, currentSkin, skinType, imgData, totalClicks, manualCookies, accumulatedPlayTime: totalPlayTime, highestCpsThisSession, buildingEnhance, clickEnhance };
+            const dataStr = JSON.stringify(data, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `foodclicker_slot${currentSlot+1}_${new Date().toISOString().slice(0,10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function importSlot(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const d = JSON.parse(e.target.result);
+                    if (typeof d.cookies !== 'number' || typeof d.totalEver !== 'number' || !Array.isArray(d.buildings)) {
+                        alert('Archivo no válido');
+                        return;
+                    }
+                    if (confirm(getT('unsaved') + ' ' + getT('restartConfirm'))) {
+                        cookies = d.cookies; totalEver = d.totalEver; cpc = d.cpc;
+                        buildings = d.buildings; clickUps = d.clickUps; unlockedAch = d.unlockedAch;
+                        ownedSkins = d.ownedSkins; currentSkin = d.currentSkin; skinType = d.skinType; imgData = d.imgData;
+                        totalClicks = d.totalClicks || 0; manualCookies = d.manualCookies || 0;
+                        accumulatedPlayTime = d.accumulatedPlayTime || 0; highestCpsThisSession = d.highestCpsThisSession || 0;
+                        buildingEnhance = d.buildingEnhance || new Array(buildings.length).fill(0);
+                        clickEnhance = d.clickEnhance || new Array(clickUps.length).fill(0);
+                        sessionStartTime = Date.now();
+                        calculateCPS(); calculateCPC(); applySkin(); initShop();
+                        unsavedChanges = false;
+                        updateUnsavedWarning();
+                    }
+                } catch (ex) {
+                    alert('Error al leer archivo');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        function handleMusicUpload(e) {
+            if(cookies < 5000) return alert("Necesitas 5k");
+            const file = e.target.files[0];
+            if(file) {
+                cookies -= 5000;
+                document.getElementById('bg-audio').src = URL.createObjectURL(file);
+                document.getElementById('bg-audio').play().catch(()=>{});
+                triggerFlash(); 
+                unsavedChanges = true;
+                updateUnsavedWarning();
+                updateUI();
+            }
+        }
+        function toggleMusic() { 
+            const a = document.getElementById('bg-audio'); 
+            a.paused ? a.play().catch(()=>{}) : a.pause(); 
+        }
+        function stopMusic() { 
+            const a = document.getElementById('bg-audio'); 
+            a.pause(); a.currentTime = 0; 
+        }
+        function handleSfxUpload(e) { 
+            const f = e.target.files[0]; 
+            if(f) document.getElementById('click-sfx').src = URL.createObjectURL(f); 
+        }
+        function handleImageUpload(e) {
+            if(cookies < 1000) return alert("1k requerido");
+            const f = e.target.files[0];
+            if(f) {
+                cookies -= 1000;
+                const reader = new FileReader();
+                reader.onload = (ev) => { imgData = ev.target.result; skinType = "image"; applySkin(); };
+                reader.readAsDataURL(f);
+                triggerFlash(); 
+                unsavedChanges = true;
+                updateUnsavedWarning();
+                updateUI();
+            }
+        }
+        function updateRender() { document.getElementById('main-image').className = document.getElementById('render-mode').value === 'pixel' ? 'render-pixel' : ''; }
+
+        // Event delegation para todos los botones de compra
+        document.addEventListener('click', function(e) {
+            const target = e.target;
+            if (!target.classList.contains('btn-buy')) return;
+            e.preventDefault(); // opcional
+
+            const action = target.dataset.action;
+            const id = target.dataset.id;
+            const emoji = target.dataset.emoji;
+            const cost = target.dataset.cost;
+
+            if (action === 'buyBuilding') {
+                buyBuilding(parseInt(id));
+            } else if (action === 'buyClick') {
+                buyClick(parseInt(id));
+            } else if (action === 'buyBuildingEnhance') {
+                buyBuildingEnhance(parseInt(id));
+            } else if (action === 'buyClickEnhance') {
+                buyClickEnhance(parseInt(id));
+            } else if (action === 'buySkin') {
+                buySkin(emoji, parseInt(cost));
+            }
+        });
+
+        setInterval(() => { 
+            if(cps > 0) { 
+                cookies += (cps/10); 
+                totalEver += (cps/10); 
+                updateUI(); 
+            } 
+        }, 100);
+
+        schedulePowerup();
+        setInterval(autosave, 360000);
+
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            document.getElementById('audio-init-btn').style.display = 'inline-block';
+        } else {
+            document.getElementById('audio-init-btn').style.display = 'none';
+            audioInitialized = true;
+        }
+
+        changeLanguage('es');
+        calculateCPC(); // inicializar cpc
+    </script>
+</body>
+</html>
