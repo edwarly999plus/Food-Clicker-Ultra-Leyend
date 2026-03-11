@@ -1,5 +1,5 @@
 # 🍴 Food Clicker Ultra Legend
-Un Simple Remake De Cookie Clicker
+Un juego en el que debes hacer clic en diferentes alimentos. También puedes mejorar tus clics o comprar edificios para conseguir clics automáticos por segundo. No juegues más de una hora, ya que este RoqueLike es muy adictivo.
 
 ## ©️ Efectos de Sonido y Música
 Los efectos de sonido utilizados en este juego fueron obtenidos de **SoundJay**.
