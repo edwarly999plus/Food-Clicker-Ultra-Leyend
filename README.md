@@ -22,4 +22,4 @@ Português (Portugués)	🇧🇷
 arРусский (Ruso) 	🇷🇺	
 العربية (Árabe) 🇸🇦
 ## ❓ Instalación
-Para ejecutar el juego en Windows, descarga la última versión en función del sistema. Para ejecutar el juego en cualquier otra plataforma, abre el archivo .html con tu navegador de preferencia (en Android no hay sonido).
+Para ejecutar el juego en Windows, descarga la última versión en función del sistema. Para ejecutar el juego en cualquier otra plataforma, abre el archivo .html con tu navegador de preferencia.
