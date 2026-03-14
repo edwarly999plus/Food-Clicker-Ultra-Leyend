@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Food Clicker: Ultra Legend</title>
     <style>
-        /* (Mantén todos los estilos originales, no hay cambios) */
+        /* Colores Y Widgets */
         :root {
             --bg: #f0f2f5; 
             --text: #2c3e50; 
@@ -19,13 +19,13 @@
             --input-bg: #ffffff;
             --gold: #f1c40f;
         }
-        
+        /* Tema Oscuro */
         [data-theme="dark"] {
             --bg: #121212; --text: #e0e0e0; --card-bg: #1e1e1e; --panel-bg: #000000; 
             --panel-text: #e67e22; --box-shadow: rgba(0,0,0,0.5); --border: #333333;
             --ach-bg: #2d2d2d; --btn-secondary: #34495e; --input-bg: #222222;
         }
-
+/* Fonts Y Texto */
         body { 
             font-family: 'Segoe UI', sans-serif; 
             text-align: center; 
@@ -45,21 +45,21 @@
             color: var(--gold);
             font-weight: bold;
         }
-
+/* Animación Flash Al Ejecutar buy */
         .flash-buy { animation: flash-anim 0.2s ease-out; }
         @keyframes flash-anim { 0% { background-color: var(--flash-color); } 100% { background-color: var(--bg); } }
-        body[data-theme="light"] { --flash-color: #d1d1d1; }
-        body[data-theme="dark"] { --flash-color: #ffffff; }
-
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
+        body[data-theme="light"] { --flash-color: #d1d1d1; } /* Flash Del Tema Claro */
+        body[data-theme="dark"] { --flash-color: #ffffff; } /* Flash Del Tema Oscuro */
+/* Tienes Cambios Sin Guardar */
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } } /* Texto Parpadeante */
         .unsaved-blink {
-            color: red;
+            color: red; /* Color Del Texto */
             font-weight: bold;
             animation: blink 1s infinite;
             margin-bottom: 5px;
             padding: 4px;
             border-radius: 4px;
-            background-color: rgba(255,0,0,0.1);
+            background-color: rgba(255,0,0,0.1); /* Color De Fondo */
         }
 
         .float-num { 
@@ -366,9 +366,9 @@
             </div>
         </div>
     </div>
-
+    <!-- Powerup Star -->
     <div id="powerup" onclick="clickPowerup()">⭐</div>
-
+<!-- Links De Creador -->
     <div class="creator-info">EdwarlyGamer999+</div>
     <div class="social-links">
         <a href="https://github.com/edwarly999plus/Food-Clicker-Ultra-Leyend" target="_blank" title="GitHub">
@@ -378,14 +378,14 @@
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/3840px-YouTube_full-color_icon_%282017%29.svg.png" alt="YouTube">
         </a>
     </div>
-
+<!-- Recursos Y Archivos Descargables -->
     <audio id="bg-audio" loop src="https://ia600900.us.archive.org/5/items/you-can-do-it-mlhaost/You%20Can%27t%20Do%20It%21.ogg"></audio>
     <audio id="click-sfx" src="https://www.soundjay.com/buttons_c2026/sounds/button-30.mp3"></audio>
     <audio id="buy-sfx" src="https://www.soundjay.com/buttons_c2026/sounds/button-37a.mp3"></audio>
     <audio id="ach-sfx" src="https://www.soundjay.com/misc_c2026/sounds/bell-ringing-05.mp3"></audio>
 
     <script>
-        // Diccionarios de idiomas (completos)
+        // Diccionarios de idiomas en-es
         const i18n = {
             es: { 
                 title: "🍴 Food Clicker: Ultra Legend", 
@@ -425,7 +425,8 @@
                 restartConfirm: "¿Estás seguro de que quieres reiniciar la partida? Se perderá todo el progreso no guardado.",
                 upgrades: "🔧 Mejoras",
                 clickUpgrades: "🖱️ Mejorar Clicks",
-                buildingUpgrades: "🏭 Mejorar Edificios"
+                buildingUpgrades: "🏭 Mejorar Edificios",
+                buyAll: "Comprar Todo"
             },
             en: { 
                 title: "🍴 Food Clicker: Ultra Legend", 
@@ -465,11 +466,566 @@
                 restartConfirm: "Are you sure you want to restart the game? All unsaved progress will be lost.",
                 upgrades: "🔧 Upgrades",
                 clickUpgrades: "🖱️ Click Upgrades",
-                buildingUpgrades: "🏭 Building Upgrades"
+                buildingUpgrades: "🏭 Building Upgrades",
+                buyAll: "Buy All"
             },
-            // ... (otros idiomas, se pueden añadir igual que en el original)
+
+            // Idiomas Alternativos
+             ko: { // KPOP KOREANO
+                title: "🍴 푸드 클리커: 울트라 레전드",
+                data: "💾 데이터 관리",
+                trophies: "🏆 트로피 룸",
+                clickPower: "🖱️ 클릭 파워",
+                industry: "🏭 산업",
+                custom: "🎭 커스터마이징",
+                sound: "🎵 사운드 및 음악",
+                b0: "할머니 👵",
+                b1: "오븐 🔥",
+                b2: "공장 🏭",
+                b3: "광산 ⛏️",
+                b4: "포털 🌀",
+                b5: "전설의 포털 🌟",
+                b6: "울트라 전설 포털 💫",
+                u0: "나무 손가락 🪵",
+                u1: "강철 포인터 ⚔️",
+                u2: "철 포인터 ⛓️",
+                u3: "다이아몬드 클릭 💎",
+                u4: "전설의 포인터 🏆",
+                u5: "울트라 전설 포인터 👑",
+                ach0: "🍪 부스러기 (100)",
+                ach1: "❓ 뭔가 더? (1M)",
+                ach2: "🔥 울트라 레전드 (100M)",
+                quality: "🖼️ 품질:",
+                smooth: "부드럽게 (HD)",
+                pixel: "픽셀 (레트로)",
+                save: "저장",
+                load: "불러오기",
+                music: "📤 음악 (5k)",
+                stop: "⏹️ 정지",
+                sfx: "🔊 클릭 커스텀",
+                upload: "📤 PNG 업로드 (1k)",
+                click: "클릭",
+                unsaved: "저장되지 않은 데이터가 있습니다!",
+                use: "사용",
+                stats: "📊 통계",
+                totalCookies: "🍪 총 쿠키",
+                sessionCookies: "📈 이번 회차에서 구운 쿠키",
+                totalEverCookies: "🏆 전체 구운 쿠키",
+                startTime: "⏱️ 게임 시작 시간",
+                buildingsOwned: "🏭 보유 건물",
+                cps: "⚡ 초당 쿠키",
+                cpsMultiplier: "📊 배율",
+                rawCps: "🥚 기본 초당 쿠키",
+                highestCps: "📈 이번 회차 최고 CPS",
+                cpc: "🖱️ 클릭당 쿠키",
+                totalClicks: "👆 총 클릭 수",
+                manualCookies: "✋ 손으로 만든 쿠키",
+                totalPlayTime: "⏳ 총 플레이 시간",
+                years: "년",
+                months: "개월",
+                days: "일",
+                hours: "시간",
+                min: "분",
+                sec: "초",
+                cookiesLabel: "쿠키",
+                autosave: "저장 중... 게임을 종료하지 마세요",
+                saved: "저장됨!",
+                restart: "재시작",
+                export: "📤 내보내기",
+                import: "📥 가져오기",
+                restartConfirm: "게임을 다시 시작하시겠습니까? 저장되지 않은 진행 상황이 모두 손실됩니다.",
+                upgrades: "🔧 업그레이드",
+                clickUpgrades: "🖱️ 클릭 업그레이드",
+                buildingUpgrades: "🏭 건물 업그레이드",
+                buyAll: "모두 구매"
+            },
+
+            zh: { // Chin Chen Han Shi Shen Han Chinoo
+                title: "🍴 美食點擊器：終極傳奇",
+                data: "💾 數據管理",
+                trophies: "🏆 獎盃室",
+                clickPower: "🖱️ 點擊力量",
+                industry: "🏭 工業",
+                custom: "🎭 自訂",
+                sound: "🎵 聲音與音樂",
+                b0: "奶奶 👵",
+                b1: "烤箱 🔥",
+                b2: "工廠 🏭",
+                b3: "礦山 ⛏️",
+                b4: "傳送門 🌀",
+                b5: "傳奇傳送門 🌟",
+                b6: "終極傳奇傳送門 💫",
+                u0: "木手指 🪵",
+                u1: "鋼指針 ⚔️",
+                u2: "鐵指針 ⛓️",
+                u3: "鑽石點擊 💎",
+                u4: "傳奇指針 🏆",
+                u5: "終極傳奇指針 👑",
+                ach0: "🍪 碎屑 (100)",
+                ach1: "❓ 還有別的嗎？ (1M)",
+                ach2: "🔥 終極傳奇 (100M)",
+                quality: "🖼️ 品質：",
+                smooth: "平滑 (高清)",
+                pixel: "像素 (復古)",
+                save: "保存",
+                load: "載入",
+                music: "📤 音樂 (5k)",
+                stop: "⏹️ 停止",
+                sfx: "🔊 自訂點擊音效",
+                upload: "📤 上傳 PNG (1k)",
+                click: "點擊",
+                unsaved: "你有未保存的數據！",
+                use: "使用",
+                stats: "📊 統計",
+                totalCookies: "🍪 總餅乾",
+                sessionCookies: "📈 本次輪迴烤的餅乾",
+                totalEverCookies: "🏆 總共烤的餅乾",
+                startTime: "⏱️ 遊戲開始時間",
+                buildingsOwned: "🏭 擁有的建築",
+                cps: "⚡ 每秒餅乾",
+                cpsMultiplier: "📊 乘數",
+                rawCps: "🥚 基礎每秒餅乾",
+                highestCps: "📈 本次輪迴最高 CPS",
+                cpc: "🖱️ 每次點擊餅乾",
+                totalClicks: "👆 總點擊次數",
+                manualCookies: "✋ 手工餅乾",
+                totalPlayTime: "⏳ 總遊玩時間",
+                years: "年",
+                months: "月",
+                days: "天",
+                hours: "小時",
+                min: "分",
+                sec: "秒",
+                cookiesLabel: "餅乾",
+                autosave: "保存中...請勿關閉遊戲",
+                saved: "已保存！",
+                restart: "重新開始",
+                export: "📤 導出",
+                import: "📥 導入",
+                restartConfirm: "你確定要重新開始遊戲嗎？所有未保存的進度將丟失。",
+                upgrades: "🔧 升級",
+                clickUpgrades: "🖱️ 點擊升級",
+                buildingUpgrades: "🏭 建築升級",
+                buyAll: "全部購買"
+            },
+
+            fr: { // Que Elegancia La De Francia!!
+                title: "🍴 Food Clicker: Ultra Légende",
+                data: "💾 Gestion des données",
+                trophies: "🏆 Salle des trophées",
+                clickPower: "🖱️ Puissance de clic",
+                industry: "🏭 Industrie",
+                custom: "🎭 Personnalisation",
+                sound: "🎵 Son et musique",
+                b0: "Grand-mère 👵",
+                b1: "Four 🔥",
+                b2: "Usine 🏭",
+                b3: "Mine ⛏️",
+                b4: "Portail 🌀",
+                b5: "Portail légendaire 🌟",
+                b6: "Portail ultra légendaire 💫",
+                u0: "Doigt en bois 🪵",
+                u1: "Pointeur en acier ⚔️",
+                u2: "Pointeur en fer ⛓️",
+                u3: "Clic diamant 💎",
+                u4: "Pointeur légendaire 🏆",
+                u5: "Pointeur ultra légendaire 👑",
+                ach0: "🍪 Miettes (100)",
+                ach1: "❓ Rien d'autre ? (1M)",
+                ach2: "🔥 Ultra Légende (100M)",
+                quality: "🖼️ QUALITÉ :",
+                smooth: "Lisse (HD)",
+                pixel: "Pixelisé (Rétro)",
+                save: "Sauvegarder",
+                load: "Charger",
+                music: "📤 Musique (5k)",
+                stop: "⏹️ Arrêter",
+                sfx: "🔊 Clic personnalisé",
+                upload: "📤 Télécharger PNG (1k)",
+                click: "Clic",
+                unsaved: "Vous avez des données non sauvegardées !",
+                use: "Utiliser",
+                stats: "📊 Statistiques",
+                totalCookies: "🍪 Cookies totaux",
+                sessionCookies: "📈 Cookies cuits (cette ascension)",
+                totalEverCookies: "🏆 Cookies cuits (total)",
+                startTime: "⏱️ Partie commencée",
+                buildingsOwned: "🏭 Bâtiments possédés",
+                cps: "⚡ Cookies par seconde",
+                cpsMultiplier: "📊 Multiplicateur",
+                rawCps: "🥚 Cookies bruts par seconde",
+                highestCps: "📈 Plus haut cette ascension",
+                cpc: "🖱️ Cookies par clic",
+                totalClicks: "👆 Clics totaux",
+                manualCookies: "✋ Cookies faits à la main",
+                totalPlayTime: "⏳ Temps de jeu total",
+                years: "ans",
+                months: "mois",
+                days: "jours",
+                hours: "heures",
+                min: "min",
+                sec: "sec",
+                cookiesLabel: "cookies",
+                autosave: "Sauvegarde... ne fermez pas le jeu",
+                saved: "Sauvegardé !",
+                restart: "Redémarrer",
+                export: "📤 Exporter",
+                import: "📥 Importer",
+                restartConfirm: "Êtes-vous sûr de vouloir redémarrer la partie ? Toute progression non sauvegardée sera perdue.",
+                upgrades: "🔧 Améliorations",
+                clickUpgrades: "🖱️ Améliorations de clic",
+                buildingUpgrades: "🏭 Améliorations de bâtiments",
+                buyAll: "Acheter tout"
+            },
+
+            de: { // Aunque No Lo Creas, Tengo Familia De Alemania Y Me Ayudaron Con La Traducción
+                title: "🍴 Food Clicker: Ultra Legende",
+                data: "💾 Datenverwaltung",
+                trophies: "🏆 Trophäenraum",
+                clickPower: "🖱️ Klickkraft",
+                industry: "🏭 Industrie",
+                custom: "🎭 Anpassung",
+                sound: "🎵 Sound & Musik",
+                b0: "Oma 👵",
+                b1: "Ofen 🔥",
+                b2: "Fabrik 🏭",
+                b3: "Mine ⛏️",
+                b4: "Portal 🌀",
+                b5: "Legendäres Portal 🌟",
+                b6: "Ultra-legendäres Portal 💫",
+                u0: "Holzfinger 🪵",
+                u1: "Stahlzeiger ⚔️",
+                u2: "Eisenzeiger ⛓️",
+                u3: "Diamant-Klick 💎",
+                u4: "Legendärer Zeiger 🏆",
+                u5: "Ultra-legendärer Zeiger 👑",
+                ach0: "🍪 Krümel (100)",
+                ach1: "❓ Noch etwas? (1M)",
+                ach2: "🔥 Ultra-Legende (100M)",
+                quality: "🖼️ QUALITÄT:",
+                smooth: "Glatt (HD)",
+                pixel: "Pixelig (Retro)",
+                save: "Speichern",
+                load: "Laden",
+                music: "📤 Musik (5k)",
+                stop: "⏹️ Stopp",
+                sfx: "🔊 Benutzerdefinierter Klick",
+                upload: "📤 PNG hochladen (1k)",
+                click: "Klick",
+                unsaved: "Sie haben ungespeicherte Daten!",
+                use: "Benutzen",
+                stats: "📊 Statistiken",
+                totalCookies: "🍪 Gesamtkekse",
+                sessionCookies: "📈 Gebackene Kekse (dieser Aufstieg)",
+                totalEverCookies: "🏆 Gebackene Kekse (insgesamt)",
+                startTime: "⏱️ Spiel gestartet",
+                buildingsOwned: "🏭 Besitzte Gebäude",
+                cps: "⚡ Kekse pro Sekunde",
+                cpsMultiplier: "📊 Multiplikator",
+                rawCps: "🥚 Rohe Kekse pro Sekunde",
+                highestCps: "📈 Höchste dieser Ascension",
+                cpc: "🖱️ Kekse pro Klick",
+                totalClicks: "👆 Gesamtklicks",
+                manualCookies: "✋ Handgemachte Kekse",
+                totalPlayTime: "⏳ Gesamte Spielzeit",
+                years: "Jahre",
+                months: "Monate",
+                days: "Tage",
+                hours: "Stunden",
+                min: "Min",
+                sec: "Sek",
+                cookiesLabel: "Kekse",
+                autosave: "Speichern... schließen Sie das Spiel nicht",
+                saved: "Gespeichert!",
+                restart: "Neustart",
+                export: "📤 Exportieren",
+                import: "📥 Importieren",
+                restartConfirm: "Sind Sie sicher, dass Sie das Spiel neu starten möchten? Alle nicht gespeicherten Fortschritte gehen verloren.",
+                upgrades: "🔧 Upgrades",
+                clickUpgrades: "🖱️ Klick-Upgrades",
+                buildingUpgrades: "🏭 Gebäude-Upgrades",
+                buyAll: "Alles kaufen"
+            },
+
+            it: { // Super Mario Italiano, Mamma Mia!
+                title: "🍴 Food Clicker: Ultra Leggenda",
+                data: "💾 Gestione dati",
+                trophies: "🏆 Sala trofei",
+                clickPower: "🖱️ Potenza di clic",
+                industry: "🏭 Industria",
+                custom: "🎭 Personalizzazione",
+                sound: "🎵 Suono e musica",
+                b0: "Nonna 👵",
+                b1: "Forno 🔥",
+                b2: "Fabbrica 🏭",
+                b3: "Miniera ⛏️",
+                b4: "Portale 🌀",
+                b5: "Portale leggendario 🌟",
+                b6: "Portale ultra leggendario 💫",
+                u0: "Dito di legno 🪵",
+                u1: "Puntatore d'acciaio ⚔️",
+                u2: "Puntatore di ferro ⛓️",
+                u3: "Clic di diamante 💎",
+                u4: "Puntatore leggendario 🏆",
+                u5: "Puntatore ultra leggendario 👑",
+                ach0: "🍪 Briciole (100)",
+                ach1: "❓ Qualcos'altro? (1M)",
+                ach2: "🔥 Ultra Leggenda (100M)",
+                quality: "🖼️ QUALITÀ:",
+                smooth: "Liscio (HD)",
+                pixel: "Pixelato (Retro)",
+                save: "Salva",
+                load: "Carica",
+                music: "📤 Musica (5k)",
+                stop: "⏹️ Ferma",
+                sfx: "🔊 Clic personalizzato",
+                upload: "📤 Carica PNG (1k)",
+                click: "Clic",
+                unsaved: "Hai dati non salvati!",
+                use: "Usa",
+                stats: "📊 Statistiche",
+                totalCookies: "🍪 Biscotti totali",
+                sessionCookies: "📈 Biscotti cotti (questa ascensione)",
+                totalEverCookies: "🏆 Biscotti cotti (sempre)",
+                startTime: "⏱️ Partita iniziata",
+                buildingsOwned: "🏭 Edifici posseduti",
+                cps: "⚡ Biscotti al secondo",
+                cpsMultiplier: "📊 Moltiplicatore",
+                rawCps: "🥚 Biscotti grezzi al secondo",
+                highestCps: "📈 Più alto questa ascensione",
+                cpc: "🖱️ Biscotti per clic",
+                totalClicks: "👆 Clic totali",
+                manualCookies: "✋ Biscotti fatti a mano",
+                totalPlayTime: "⏳ Tempo di gioco totale",
+                years: "anni",
+                months: "mesi",
+                days: "giorni",
+                hours: "ore",
+                min: "min",
+                sec: "sec",
+                cookiesLabel: "biscotti",
+                autosave: "Salvataggio... non chiudere il gioco",
+                saved: "Salvato!",
+                restart: "Ricomincia",
+                export: "📤 Esporta",
+                import: "📥 Importa",
+                restartConfirm: "Sei sicuro di voler ricominciare la partita? Tutti i progressi non salvati andranno persi.",
+                upgrades: "🔧 Migliorie",
+                clickUpgrades: "🖱️ Migliorie clic",
+                buildingUpgrades: "🏭 Migliorie edifici",
+                buyAll: "Compra tutto"
+            },
+
+            pt: { // Phonk Brazileño
+                title: "🍴 Food Clicker: Ultra Lenda",
+                data: "💾 Gerenciamento de Dados",
+                trophies: "🏆 Sala de Troféus",
+                clickPower: "🖱️ Poder de Clique",
+                industry: "🏭 Indústria",
+                custom: "🎭 Personalização",
+                sound: "🎵 Som e Música",
+                b0: "Avó 👵",
+                b1: "Forno 🔥",
+                b2: "Fábrica 🏭",
+                b3: "Mina ⛏️",
+                b4: "Portal 🌀",
+                b5: "Portal Lendário 🌟",
+                b6: "Portal Ultra Lendário 💫",
+                u0: "Dedo de Madeira 🪵",
+                u1: "Ponteiro de Aço ⚔️",
+                u2: "Ponteiro de Ferro ⛓️",
+                u3: "Clique de Diamante 💎",
+                u4: "Ponteiro Lendário 🏆",
+                u5: "Ponteiro Ultra Lendário 👑",
+                ach0: "🍪 Migalhas (100)",
+                ach1: "❓ Algo mais? (1M)",
+                ach2: "🔥 Ultra Lenda (100M)",
+                quality: "🖼️ QUALIDADE:",
+                smooth: "Suave (HD)",
+                pixel: "Pixelado (Retrô)",
+                save: "Salvar",
+                load: "Carregar",
+                music: "📤 Música (5k)",
+                stop: "⏹️ Parar",
+                sfx: "🔊 Clique Personalizado",
+                upload: "📤 Enviar PNG (1k)",
+                click: "Clique",
+                unsaved: "Você tem dados não salvos!",
+                use: "Usar",
+                stats: "📊 Estatísticas",
+                totalCookies: "🍪 Biscoitos totais",
+                sessionCookies: "📈 Biscoitos assados (nesta ascensão)",
+                totalEverCookies: "🏆 Biscoitos assados (total)",
+                startTime: "⏱️ Jogo iniciado",
+                buildingsOwned: "🏭 Edifícios próprios",
+                cps: "⚡ Biscoitos por segundo",
+                cpsMultiplier: "📊 Multiplicador",
+                rawCps: "🥚 Biscoitos crus por segundo",
+                highestCps: "📈 Maior nesta ascensão",
+                cpc: "🖱️ Biscoitos por clique",
+                totalClicks: "👆 Cliques totais",
+                manualCookies: "✋ Biscoitos feitos à mão",
+                totalPlayTime: "⏳ Tempo total de jogo",
+                years: "anos",
+                months: "meses",
+                days: "dias",
+                hours: "horas",
+                min: "min",
+                sec: "seg",
+                cookiesLabel: "biscoitos",
+                autosave: "Salvando... não feche o jogo",
+                saved: "Salvo!",
+                restart: "Reiniciar",
+                export: "📤 Exportar",
+                import: "📥 Importar",
+                restartConfirm: "Tem certeza de que deseja reiniciar o jogo? Todo o progresso não salvo será perdido.",
+                upgrades: "🔧 Melhorias",
+                clickUpgrades: "🖱️ Melhorias de Clique",
+                buildingUpgrades: "🏭 Melhorias de Edifícios",
+                buyAll: "Comprar tudo"
+            },
+
+            ar: { // Los Arabes Son Tipo: https://www.youtube.com/watch?v=5ngWIDkPP3o
+                title: "🍴 نقرة الطعام: الأسطورة الفائقة",
+                data: "💾 إدارة البيانات",
+                trophies: "🏆 غرفة الجوائز",
+                clickPower: "🖱️ قوة النقرة",
+                industry: "🏭 الصناعة",
+                custom: "🎭 تخصيص",
+                sound: "🎵 الصوت والموسيقى",
+                b0: "الجدة 👵",
+                b1: "الفرن 🔥",
+                b2: "مصنع 🏭",
+                b3: "منجم ⛏️",
+                b4: "بوابة 🌀",
+                b5: "البوابة الأسطورية 🌟",
+                b6: "البوابة الأسطورية الفائقة 💫",
+                u0: "إصبع خشبي 🪵",
+                u1: "مؤشر فولاذي ⚔️",
+                u2: "مؤشر حديدي ⛓️",
+                u3: "نقرة الماس 💎",
+                u4: "المؤشر الأسطوري 🏆",
+                u5: "المؤشر الأسطوري الفائق 👑",
+                ach0: "🍪 فتات (100)",
+                ach1: "❓ أي شيء آخر؟ (1M)",
+                ach2: "🔥 الأسطورة الفائقة (100M)",
+                quality: "🖼️ الجودة:",
+                smooth: "ناعم (عالية الدقة)",
+                pixel: "بيكسل (ريترو)",
+                save: "حفظ",
+                load: "تحميل",
+                music: "📤 موسيقى (5k)",
+                stop: "⏹️ إيقاف",
+                sfx: "🔊 نقرة مخصصة",
+                upload: "📤 رفع PNG (1k)",
+                click: "نقرة",
+                unsaved: "لديك بيانات غير محفوظة!",
+                use: "استخدم",
+                stats: "📊 إحصائيات",
+                totalCookies: "🍪 إجمالي الكوكيز",
+                sessionCookies: "📈 الكوكيز المخبوزة (هذا الصعود)",
+                totalEverCookies: "🏆 الكوكيز المخبوزة (الإجمالي)",
+                startTime: "⏱️ بدء اللعبة",
+                buildingsOwned: "🏭 المباني المملوكة",
+                cps: "⚡ كوكيز في الثانية",
+                cpsMultiplier: "📊 المضاعف",
+                rawCps: "🥚 كوكيز خام في الثانية",
+                highestCps: "📈 الأعلى في هذا الصعود",
+                cpc: "🖱️ كوكيز لكل نقرة",
+                totalClicks: "👆 إجمالي النقرات",
+                manualCookies: "✋ كوكيز يدوية",
+                totalPlayTime: "⏳ إجمالي وقت اللعب",
+                years: "سنوات",
+                months: "أشهر",
+                days: "أيام",
+                hours: "ساعات",
+                min: "دقائق",
+                sec: "ثواني",
+                cookiesLabel: "كوكيز",
+                autosave: "جارٍ الحفظ... لا تغلق اللعبة",
+                saved: "تم الحفظ!",
+                restart: "إعادة التشغيل",
+                export: "📤 تصدير",
+                import: "📥 استيراد",
+                restartConfirm: "هل أنت متأكد من رغبتك في إعادة تشغيل اللعبة؟ سيتم فقدان جميع التقدم غير المحفوظ.",
+                upgrades: "🔧 ترقيات",
+                clickUpgrades: "🖱️ ترقيات النقرة",
+                buildingUpgrades: "🏭 ترقيات المباني",
+                buyAll: "شراء الكل"
+            },
+
+            ru: { // No Dire Nada De Rusia Para Evitar Funas
+                title: "🍴 Food Clicker: Ультра Легенда",
+                data: "💾 Управление данными",
+                trophies: "🏆 Комната трофеев",
+                clickPower: "🖱️ Сила клика",
+                industry: "🏭 Промышленность",
+                custom: "🎭 Настройка",
+                sound: "🎵 Звук и музыка",
+                b0: "Бабушка 👵",
+                b1: "Печь 🔥",
+                b2: "Фабрика 🏭",
+                b3: "Шахта ⛏️",
+                b4: "Портал 🌀",
+                b5: "Легендарный портал 🌟",
+                b6: "Ультра легендарный портал 💫",
+                u0: "Деревянный палец 🪵",
+                u1: "Стальной указатель ⚔️",
+                u2: "Железный указатель ⛓️",
+                u3: "Алмазный клик 💎",
+                u4: "Легендарный указатель 🏆",
+                u5: "Ультра легендарный указатель 👑",
+                ach0: "🍪 Крошки (100)",
+                ach1: "❓ Ещё что-то? (1M)",
+                ach2: "🔥 Ультра Легенда (100M)",
+                quality: "🖼️ КАЧЕСТВО:",
+                smooth: "Гладкое (HD)",
+                pixel: "Пиксельное (Ретро)",
+                save: "Сохранить",
+                load: "Загрузить",
+                music: "📤 Музыка (5k)",
+                stop: "⏹️ Стоп",
+                sfx: "🔊 Пользовательский клик",
+                upload: "📤 Загрузить PNG (1k)",
+                click: "Клик",
+                unsaved: "У вас есть несохраненные данные!",
+                use: "Использовать",
+                stats: "📊 Статистика",
+                totalCookies: "🍪 Всего печенья",
+                sessionCookies: "📈 Испечено печенья (это вознесение)",
+                totalEverCookies: "🏆 Испечено печенья (всего)",
+                startTime: "⏱️ Игра начата",
+                buildingsOwned: "🏭 Зданий в собственности",
+                cps: "⚡ Печенья в секунду",
+                cpsMultiplier: "📊 Множитель",
+                rawCps: "🥚 Сырые печенья в секунду",
+                highestCps: "📈 Наивысшее за это вознесение",
+                cpc: "🖱️ Печенья за клик",
+                totalClicks: "👆 Всего кликов",
+                manualCookies: "✋ Печенья сделанные вручную",
+                totalPlayTime: "⏳ Общее время игры",
+                years: "лет",
+                months: "месяцев",
+                days: "дней",
+                hours: "часов",
+                min: "мин",
+                sec: "сек",
+                cookiesLabel: "печенья",
+                autosave: "Сохранение... не закрывайте игру",
+                saved: "Сохранено!",
+                restart: "Перезапуск",
+                export: "📤 Экспорт",
+                import: "📥 Импорт",
+                restartConfirm: "Вы уверены, что хотите перезапустить игру? Весь несохраненный прогресс будет потерян.",
+                upgrades: "🔧 Улучшения",
+                clickUpgrades: "🖱️ Улучшения клика",
+                buildingUpgrades: "🏭 Улучшения зданий",
+                buyAll: "Купить все"
+            }
+
         };
 
+        // Rellenar Traducciones Faltantes Con Inglés
         for (let lang in i18n) {
             if (lang !== 'en') {
                 for (let key in i18n.en) {
@@ -478,6 +1034,24 @@
             }
         }
 
+        // Funciones De Formato De Números Abreviados
+        function formatAbbr(num) {
+            if (num < 1000) return Math.floor(num).toString();
+            const suffixes = ["", "k", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "O", "N", "Dc", "Ud", "Dd", "Td", "Qad", "Qid", "Sxd", "Spd", "Ocd", "Nod", "Vg"];
+            let i = 0;
+            let n = num;
+            while (n >= 1000 && i < suffixes.length - 1) {
+                n /= 1000;
+                i++;
+            }
+            return n.toFixed(1) + suffixes[i];
+        }
+// Función De Formato De Números Con Comas
+        function formatStat(num) {
+            if (num >= 1e6) return num.toExponential(2);
+            else return Math.floor(num).toLocaleString();
+        }
+// Función De Formato De Tiempo
         let cookies = 0, totalEver = 0, cpc = 1, cps = 0, currentLang = 'es', currentSlot = 0;
         let unlockedAch = [], ownedSkins = ["🍪"], currentSkin = "🍪", skinType = "emoji", imgData = "";
         let unsavedChanges = false;
@@ -491,7 +1065,7 @@
         let powerupTimeout = null;
         let powerupVisible = false;
         let audioInitialized = false;
-
+// Coste De Edificios Por Su ID, 0 = Abuela
         let buildings = [
             { id: 0, cost: 72, base: 72, owned: 0, cps: 2 },
             { id: 1, cost: 500, base: 500, owned: 0, cps: 10 },
@@ -501,7 +1075,7 @@
             { id: 5, cost: 5000000, base: 5000000, owned: 0, cps: 10000 },
             { id: 6, cost: 100000000, base: 100000000, owned: 0, cps: 50000 }
         ];
-
+// Coste De Edificios Por Su ID, 0 = Dedo Madera
         let clickUps = [
             { id: 0, cost: 100, base: 100, owned: 0, power: 2 },
             { id: 1, cost: 1500, base: 1500, owned: 0, power: 10 },
@@ -511,11 +1085,11 @@
             { id: 5, cost: 20000000, base: 20000000, owned: 0, power: 10000 }
         ];
 
-        // Nuevos arrays para mejoras (multiplicadores x2 por nivel)
+        // Nuevos Arrays Para Mejoras (Multiplicadores x2 Por Nivel)
         let buildingEnhance = new Array(buildings.length).fill(0);
         let clickEnhance = new Array(clickUps.length).fill(0);
 
-        // Lista completa de nombres de skins (todos los emojis)
+        // Lista completa de nombres de skins (todos los emojis, en todos los idiomas) 
         const skinNames = {
             "🍪": { es: "Galleta", en: "Cookie", fr: "Biscuit", de: "Keks", pt: "Biscoito", it: "Biscotto", zh: "饼干", ko: "쿠키", ar: "بسكويت", ru: "Печенье" },
             "🍕": { es: "Pizza", en: "Pizza", fr: "Pizza", de: "Pizza", pt: "Pizza", it: "Pizza", zh: "披萨", ko: "피자", ar: "بيتزا", ru: "Пицца" },
@@ -545,7 +1119,7 @@
             "🥪": { es: "Sándwich", en: "Sandwich", fr: "Sandwich", de: "Sandwich", pt: "Sanduíche", it: "Sandwich", zh: "三明治", ko: "샌드위치", ar: "ساندويتش", ru: "Сэндвич" },
             "🌮": { es: "Taco", en: "Taco", fr: "Taco", de: "Taco", pt: "Taco", it: "Taco", zh: "塔可", ko: "타코", ar: "تاكو", ru: "Тако" }
         };
-
+// Precios De Skin
         let skinItems = [
             { emoji: "🍪", cost: 0 },
             { emoji: "🍕", cost: 2000 },
@@ -575,7 +1149,7 @@
             { emoji: "🥪", cost: 3100 },
             { emoji: "🌮", cost: 3900 }
         ];
-
+// Nombres De Skins Por ID Y Lenguaje
         function getT(k) { return (i18n[currentLang] && i18n[currentLang][k]) ? i18n[currentLang][k] : (i18n.en[k] || k); }
 
         function getSkinName(emoji) {
@@ -584,7 +1158,7 @@
             }
             return (skinNames[emoji] && skinNames[emoji].en) ? skinNames[emoji].en : emoji;
         }
-
+// Función Para Actualizar Advertencia De Cambios No Guardados
         function updateUnsavedWarning() {
             const warn = document.getElementById('unsaved-warning');
             if (warn) {
@@ -592,7 +1166,7 @@
                 warn.innerText = getT('unsaved');
             }
         }
-
+// Función Para Actualizar Toda La UI
         function triggerFlash() {
             document.body.classList.remove('flash-buy');
             void document.body.offsetWidth;
@@ -602,13 +1176,13 @@
         function spawnFloat(e) {
             const s = document.createElement('span');
             s.className = 'float-num';
-            s.innerText = `+${cpc}`;
+            s.innerText = `+${formatAbbr(cpc)}`;
             s.style.left = `${e.clientX}px`;
             s.style.top = `${e.clientY - 30}px`;
             document.body.appendChild(s);
             setTimeout(() => s.remove(), 800);
         }
-
+// Particulas De Click
         function spawnParticles(e) {
             const count = 15;
             for (let i = 0; i < count; i++) {
@@ -632,7 +1206,7 @@
                 setTimeout(() => p.remove(), 800);
             }
         }
-
+// Sist. De Sonido Y Música
         function initAudio() {
             const silent = new Audio();
             silent.play().then(() => {
@@ -707,7 +1281,7 @@
             playSound('buy-sfx');
             const fakeEvent = { clientX: parseInt(powerup.style.left) + 40, clientY: parseInt(powerup.style.top) + 40 };
             const s = document.createElement('span');
-            s.className = 'float-num'; s.innerText = `+${reward}`;
+            s.className = 'float-num'; s.innerText = `+${formatAbbr(reward)}`;
             s.style.left = fakeEvent.clientX + 'px'; s.style.top = fakeEvent.clientY + 'px';
             document.body.appendChild(s);
             setTimeout(() => s.remove(), 800);
@@ -715,7 +1289,7 @@
             updateUI();
         }
 
-        // Recalcular CPS con multiplicadores
+        // Recalcular CPS Con Multiplicadores
         function calculateCPS() {
             cps = 0;
             for (let i = 0; i < buildings.length; i++) {
@@ -726,7 +1300,7 @@
             if (cps > highestCpsThisSession) highestCpsThisSession = cps;
         }
 
-        // Recalcular CPC con multiplicadores
+        // Recalcular CPC Con Multiplicadores
         function calculateCPC() {
             let total = 1; // base click
             for (let i = 0; i < clickUps.length; i++) {
@@ -747,7 +1321,7 @@
                 unsavedChanges = true;
                 updateUnsavedWarning();
                 calculateCPS();
-                initShop(); // actualiza tiendas
+                initShop(); // actualiza tiendas y verifica el saldo actual
             }
         }
 
@@ -765,11 +1339,11 @@
             }
         }
 
-        // Compra de mejora para edificio
+        // Compra De Mejora Para Edificio
         function buyBuildingEnhance(i) {
             let b = buildings[i];
             let level = buildingEnhance[i];
-            let cost = Math.floor(b.base * Math.pow(2, level) * 10);
+            let cost = Math.floor(b.base * Math.pow(2, level) * 10); // buff
             if (cookies >= cost) {
                 cookies -= cost;
                 buildingEnhance[i]++;
@@ -786,7 +1360,7 @@
         function buyClickEnhance(i) {
             let u = clickUps[i];
             let level = clickEnhance[i];
-            let cost = Math.floor(u.base * Math.pow(2, level) * 10);
+            let cost = Math.floor(u.base * Math.pow(2, level) * 10); // buff
             if (cookies >= cost) {
                 cookies -= cost;
                 clickEnhance[i]++;
@@ -837,46 +1411,25 @@
             }
         }
 
+        // Funciones de renderizado con botones "Comprar Todo"
         function renderSkinShop() {
             let html = '';
             skinItems.forEach((item, index) => {
                 const owned = ownedSkins.includes(item.emoji);
                 const disabled = !owned && cookies < item.cost;
-                const buttonText = owned ? getT('use') : item.cost.toLocaleString();
+                const buttonText = owned ? getT('use') : formatAbbr(item.cost);
                 const displayName = item.emoji + ' ' + getSkinName(item.emoji);
                 html += `<div class="item-row">
                     <div><b>${displayName}</b></div>
                     <button class="btn-buy" data-action="buySkin" data-emoji="${item.emoji}" data-cost="${item.cost}" ${disabled ? 'disabled' : ''}>${buttonText}</button>
                 </div>`;
             });
+            html += `<div style="margin-top:10px; text-align:center;">
+                <button class="btn-buy-all" onclick="buyAllSkins()" style="background:#27ae60; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer; font-weight:bold;">${getT('buyAll')}</button>
+            </div>`;
             document.getElementById('skin-shop').innerHTML = html;
         }
 
-        function initShop() {
-            let bH = "", uH = "";
-            buildings.forEach(b => {
-                let effectiveCPS = b.cps * Math.pow(2, buildingEnhance[b.id]);
-                bH += `<div class="item-row">
-                    <div><b>${getT('b'+b.id)} (${b.owned})</b><br><span style="color:#27ae60;font-size:10px;">+${effectiveCPS} CPS</span></div>
-                    <button class="btn-buy" data-action="buyBuilding" data-id="${b.id}" ${cookies < b.cost ? 'disabled' : ''}>${b.cost.toLocaleString()}</button>
-                </div>`;
-            });
-            clickUps.forEach(u => {
-                let effectivePower = u.power * Math.pow(2, clickEnhance[u.id]);
-                uH += `<div class="item-row">
-                    <div><b>${getT('u'+u.id)} (${u.owned})</b><br><span style="color:#27ae60;font-size:10px;">+${effectivePower} Click</span></div>
-                    <button class="btn-buy" data-action="buyClick" data-id="${u.id}" ${cookies < u.cost ? 'disabled' : ''}>${u.cost.toLocaleString()}</button>
-                </div>`;
-            });
-            document.getElementById('auto-shop').innerHTML = bH;
-            document.getElementById('click-shop').innerHTML = uH;
-            renderSkinShop();
-            renderClickUpgrades();
-            renderBuildingUpgrades();
-            updateUI(); // actualiza contadores y demás
-        }
-
-        // Renderizar mejoras de clicks
         function renderClickUpgrades() {
             let html = `<h4 style="margin:0 0 10px 0; color:var(--gold);">${getT('clickUpgrades')}</h4>`;
             clickUps.forEach((u, i) => {
@@ -887,13 +1440,15 @@
                 let name = getT('u'+u.id);
                 html += `<div class="item-row">
                     <div><b>${name}</b> (x${mult})<br><span style="color:#27ae60;font-size:10px;">Nivel ${level}</span></div>
-                    <button class="btn-buy" data-action="buyClickEnhance" data-id="${i}" ${disabled}>${cost.toLocaleString()}</button>
+                    <button class="btn-buy" data-action="buyClickEnhance" data-id="${i}" ${disabled}>${formatAbbr(cost)}</button>
                 </div>`;
             });
+            html += `<div style="margin-top:10px; text-align:center;">
+                <button class="btn-buy-all" onclick="buyAllClickEnhances()" style="background:#27ae60; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer; font-weight:bold;">${getT('buyAll')}</button>
+            </div>`;
             document.getElementById('click-upgrades-list').innerHTML = html;
         }
 
-        // Renderizar mejoras de edificios
         function renderBuildingUpgrades() {
             let html = `<h4 style="margin:0 0 10px 0; color:var(--gold);">${getT('buildingUpgrades')}</h4>`;
             buildings.forEach((b, i) => {
@@ -904,12 +1459,179 @@
                 let name = getT('b'+b.id);
                 html += `<div class="item-row">
                     <div><b>${name}</b> (x${mult})<br><span style="color:#27ae60;font-size:10px;">Nivel ${level}</span></div>
-                    <button class="btn-buy" data-action="buyBuildingEnhance" data-id="${i}" ${disabled}>${cost.toLocaleString()}</button>
+                    <button class="btn-buy" data-action="buyBuildingEnhance" data-id="${i}" ${disabled}>${formatAbbr(cost)}</button>
                 </div>`;
             });
+            html += `<div style="margin-top:10px; text-align:center;">
+                <button class="btn-buy-all" onclick="buyAllBuildingEnhances()" style="background:#27ae60; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer; font-weight:bold;">${getT('buyAll')}</button>
+            </div>`;
             document.getElementById('building-upgrades-list').innerHTML = html;
         }
 
+        function renderAutoShop() {
+            let html = '';
+            buildings.forEach(b => {
+                let effectiveCPS = b.cps * Math.pow(2, buildingEnhance[b.id]);
+                html += `<div class="item-row">
+                    <div><b>${getT('b'+b.id)} (${b.owned})</b><br><span style="color:#27ae60;font-size:10px;">+${effectiveCPS} CPS</span></div>
+                    <button class="btn-buy" data-action="buyBuilding" data-id="${b.id}" ${cookies < b.cost ? 'disabled' : ''}>${formatAbbr(b.cost)}</button>
+                </div>`;
+            });
+            html += `<div style="margin-top:10px; text-align:center;">
+                <button class="btn-buy-all" onclick="buyAllBuildings()" style="background:#27ae60; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer; font-weight:bold;">${getT('buyAll')}</button>
+            </div>`;
+            document.getElementById('auto-shop').innerHTML = html;
+        }
+
+        function renderClickShop() {
+            let html = '';
+            clickUps.forEach(u => {
+                let effectivePower = u.power * Math.pow(2, clickEnhance[u.id]);
+                html += `<div class="item-row">
+                    <div><b>${getT('u'+u.id)} (${u.owned})</b><br><span style="color:#27ae60;font-size:10px;">+${effectivePower} Click</span></div>
+                    <button class="btn-buy" data-action="buyClick" data-id="${u.id}" ${cookies < u.cost ? 'disabled' : ''}>${formatAbbr(u.cost)}</button>
+                </div>`;
+            });
+            html += `<div style="margin-top:10px; text-align:center;">
+                <button class="btn-buy-all" onclick="buyAllClickUps()" style="background:#27ae60; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer; font-weight:bold;">${getT('buyAll')}</button>
+            </div>`;
+            document.getElementById('click-shop').innerHTML = html;
+        }
+
+        function initShop() {
+            renderAutoShop();
+            renderClickShop();
+            renderSkinShop();
+            renderClickUpgrades();
+            renderBuildingUpgrades();
+            updateUI();
+        }
+
+        // Funciones "Comprar Todo"
+        function buyAllSkins() {
+            let changed = false;
+            for (let item of skinItems) {
+                if (!ownedSkins.includes(item.emoji) && cookies >= item.cost) {
+                    cookies -= item.cost;
+                    ownedSkins.push(item.emoji);
+                    changed = true;
+                }
+            }
+            if (changed) {
+                playSound('buy-sfx');
+                triggerFlash();
+                unsavedChanges = true;
+                updateUnsavedWarning();
+                initShop();
+            }
+        }
+
+        function buyAllClickUps() {
+            let overallChanged = false;
+            let changed;
+            do {
+                changed = false;
+                for (let i = 0; i < clickUps.length; i++) {
+                    let u = clickUps[i];
+                    if (cookies >= u.cost) {
+                        cookies -= u.cost;
+                        u.owned++;
+                        u.cost = Math.floor(u.base * Math.pow(1.6, u.owned));
+                        changed = true;
+                        overallChanged = true;
+                    }
+                }
+            } while (changed);
+            if (overallChanged) {
+                calculateCPC();
+                playSound('buy-sfx');
+                triggerFlash();
+                unsavedChanges = true;
+                updateUnsavedWarning();
+                initShop();
+            }
+        }
+
+        function buyAllBuildings() {
+            let overallChanged = false;
+            let changed;
+            do {
+                changed = false;
+                for (let i = 0; i < buildings.length; i++) {
+                    let b = buildings[i];
+                    if (cookies >= b.cost) {
+                        cookies -= b.cost;
+                        b.owned++;
+                        b.cost = Math.floor(b.base * Math.pow(1.15, b.owned));
+                        changed = true;
+                        overallChanged = true;
+                    }
+                }
+            } while (changed);
+            if (overallChanged) {
+                calculateCPS();
+                playSound('buy-sfx');
+                triggerFlash();
+                unsavedChanges = true;
+                updateUnsavedWarning();
+                initShop();
+            }
+        }
+
+        function buyAllClickEnhances() {
+            let overallChanged = false;
+            let changed;
+            do {
+                changed = false;
+                for (let i = 0; i < clickUps.length; i++) {
+                    let u = clickUps[i];
+                    let level = clickEnhance[i];
+                    let cost = Math.floor(u.base * Math.pow(2, level) * 10);
+                    if (cookies >= cost) {
+                        cookies -= cost;
+                        clickEnhance[i]++;
+                        changed = true;
+                        overallChanged = true;
+                    }
+                }
+            } while (changed);
+            if (overallChanged) {
+                calculateCPC();
+                playSound('buy-sfx');
+                triggerFlash();
+                unsavedChanges = true;
+                updateUnsavedWarning();
+                initShop();
+            }
+        }
+
+        function buyAllBuildingEnhances() {
+            let overallChanged = false;
+            let changed;
+            do {
+                changed = false;
+                for (let i = 0; i < buildings.length; i++) {
+                    let b = buildings[i];
+                    let level = buildingEnhance[i];
+                    let cost = Math.floor(b.base * Math.pow(2, level) * 10);
+                    if (cookies >= cost) {
+                        cookies -= cost;
+                        buildingEnhance[i]++;
+                        changed = true;
+                        overallChanged = true;
+                    }
+                }
+            } while (changed);
+            if (overallChanged) {
+                calculateCPS();
+                playSound('buy-sfx');
+                triggerFlash();
+                unsavedChanges = true;
+                updateUnsavedWarning();
+                initShop();
+            }
+        }
+// Majora Mask Time xd, solo es el tiempo de juego no se confundan
         function formatTime(seconds) {
             const years = Math.floor(seconds / (365 * 24 * 3600));
             seconds %= 365 * 24 * 3600;
@@ -936,29 +1658,29 @@
             const startTimeStr = `${startMinutes}${getT('min')} ${startSeconds}${getT('sec')}`;
 
             const statsHtml = `
-                <div><span class="stat-label">${getT('totalCookies')}:</span> <span class="stat-value">${Math.floor(cookies).toLocaleString()}</span></div>
-                <div><span class="stat-label">${getT('sessionCookies')}:</span> <span class="stat-value">${Math.floor(totalEver).toLocaleString()}</span></div>
-                <div><span class="stat-label">${getT('totalEverCookies')}:</span> <span class="stat-value">${Math.floor(totalEver).toLocaleString()}</span></div>
+                <div><span class="stat-label">${getT('totalCookies')}:</span> <span class="stat-value">${formatStat(cookies)}</span></div>
+                <div><span class="stat-label">${getT('sessionCookies')}:</span> <span class="stat-value">${formatStat(totalEver)}</span></div>
+                <div><span class="stat-label">${getT('totalEverCookies')}:</span> <span class="stat-value">${formatStat(totalEver)}</span></div>
                 <div><span class="stat-label">${getT('startTime')}:</span> <span class="stat-value">${startTimeStr}</span></div>
                 <div><span class="stat-label">${getT('buildingsOwned')}:</span> <span class="stat-value">${buildingsStr}</span></div>
-                <div><span class="stat-label">${getT('cps')}:</span> <span class="stat-value">${cps.toLocaleString()}</span></div>
+                <div><span class="stat-label">${getT('cps')}:</span> <span class="stat-value">${formatStat(cps)}</span></div>
                 <div><span class="stat-label">${getT('cpsMultiplier')}:</span> <span class="stat-value">${(cps / (buildings.reduce((acc, b) => acc + (b.owned * b.cps), 0) || 1)).toFixed(2)}x</span></div>
-                <div><span class="stat-label">${getT('rawCps')}:</span> <span class="stat-value">${cps.toLocaleString()}</span></div>
-                <div><span class="stat-label">${getT('highestCps')}:</span> <span class="stat-value">${highestCpsThisSession.toLocaleString()}</span></div>
-                <div><span class="stat-label">${getT('cpc')}:</span> <span class="stat-value">${cpc.toLocaleString()}</span></div>
-                <div><span class="stat-label">${getT('totalClicks')}:</span> <span class="stat-value">${totalClicks.toLocaleString()}</span></div>
-                <div><span class="stat-label">${getT('manualCookies')}:</span> <span class="stat-value">${Math.floor(manualCookies).toLocaleString()}</span></div>
+                <div><span class="stat-label">${getT('rawCps')}:</span> <span class="stat-value">${formatStat(cps)}</span></div>
+                <div><span class="stat-label">${getT('highestCps')}:</span> <span class="stat-value">${formatStat(highestCpsThisSession)}</span></div>
+                <div><span class="stat-label">${getT('cpc')}:</span> <span class="stat-value">${formatStat(cpc)}</span></div>
+                <div><span class="stat-label">${getT('totalClicks')}:</span> <span class="stat-value">${formatStat(totalClicks)}</span></div>
+                <div><span class="stat-label">${getT('manualCookies')}:</span> <span class="stat-value">${formatStat(manualCookies)}</span></div>
                 <div><span class="stat-label">${getT('totalPlayTime')}:</span> <span class="stat-value">${formatTime(totalPlayTime)}</span></div>
             `;
             document.getElementById('stats-content').innerHTML = statsHtml;
         }
 
         function updateUI() {
-            document.getElementById('c-count').innerText = Math.floor(cookies).toLocaleString();
-            document.getElementById('cps-display').innerText = cps.toLocaleString();
-            document.getElementById('cpc-display').innerText = cpc.toLocaleString();
+            document.getElementById('c-count').innerText = formatAbbr(cookies);
+            document.getElementById('cps-display').innerText = formatAbbr(cps);
+            document.getElementById('cpc-display').innerText = formatAbbr(cpc);
 
-            document.title = `${Math.floor(cookies).toLocaleString()} ${getT('cookiesLabel')} - ${getT('title')}`;
+            document.title = `${formatAbbr(cookies)} ${getT('cookiesLabel')} - ${getT('title')}`;
 
             updateCounterIcon();
             updateStats();
@@ -968,13 +1690,13 @@
                 let id = btn.dataset.id;
                 let b = buildings[id];
                 btn.disabled = cookies < b.cost;
-                btn.innerText = b.cost.toLocaleString();
+                btn.innerText = formatAbbr(b.cost);
             });
             document.querySelectorAll('.btn-buy[data-action="buyClick"]').forEach(btn => {
                 let id = btn.dataset.id;
                 let u = clickUps[id];
                 btn.disabled = cookies < u.cost;
-                btn.innerText = u.cost.toLocaleString();
+                btn.innerText = formatAbbr(u.cost);
             });
             document.querySelectorAll('.btn-buy[data-action="buyBuildingEnhance"]').forEach(btn => {
                 let i = btn.dataset.id;
@@ -982,7 +1704,7 @@
                 let level = buildingEnhance[i];
                 let cost = Math.floor(b.base * Math.pow(2, level) * 10);
                 btn.disabled = cookies < cost;
-                btn.innerText = cost.toLocaleString();
+                btn.innerText = formatAbbr(cost);
             });
             document.querySelectorAll('.btn-buy[data-action="buyClickEnhance"]').forEach(btn => {
                 let i = btn.dataset.id;
@@ -990,34 +1712,34 @@
                 let level = clickEnhance[i];
                 let cost = Math.floor(u.base * Math.pow(2, level) * 10);
                 btn.disabled = cookies < cost;
-                btn.innerText = cost.toLocaleString();
+                btn.innerText = formatAbbr(cost);
             });
             document.querySelectorAll('.btn-buy[data-action="buySkin"]').forEach(btn => {
                 let emoji = btn.dataset.emoji;
                 let cost = parseInt(btn.dataset.cost);
                 let owned = ownedSkins.includes(emoji);
                 btn.disabled = !owned && cookies < cost;
-                btn.innerText = owned ? getT('use') : cost.toLocaleString();
+                btn.innerText = owned ? getT('use') : formatAbbr(cost);
             });
 
             checkAch();
         }
-
+// Permite desb. logros
         function checkAch() {
             let newUnlock = false;
-            if (totalEver >= 100 && !unlockedAch.includes(0)) {
+            if (totalEver >= 100 && !unlockedAch.includes(0)) { // precio de desbloqueo = 100 cookies
                 unlockedAch.push(0);
                 newUnlock = true;
             }
-            if (totalEver >= 1000000 && !unlockedAch.includes(1)) {
+            if (totalEver >= 1000000 && !unlockedAch.includes(1)) { // 10M
                 unlockedAch.push(1);
                 newUnlock = true;
             }
-            if (totalEver >= 100000000 && !unlockedAch.includes(2)) {
+            if (totalEver >= 100000000 && !unlockedAch.includes(2)) { // 100M creo, no me acuerdo bien jaja
                 unlockedAch.push(2);
                 newUnlock = true;
             }
-            if (newUnlock) {
+            if (newUnlock) { // Reproducir Sonido De Logros, wtf a veces escribo todo en mayusculas y sin acento xdddd
                 playSound('ach-sfx');
                 unsavedChanges = true;
                 updateUnsavedWarning();
@@ -1026,9 +1748,9 @@
             unlockedAch.forEach(id => aH += `<div class="ach-item">${getT('ach'+id)}</div>`);
             document.getElementById('ach-list').innerHTML = aH;
         }
-
+// Funcion De Cambiar Lenguaje
         function changeLanguage(l) {
-            currentLang = l;
+            currentLang = l; // ID De Idioma Default Español = 1
             document.getElementById('main-title').innerText = getT('title');
             document.getElementById('label-data').innerText = getT('data');
             document.getElementById('btn-save').innerText = getT('save');
@@ -1063,7 +1785,7 @@
         }
 
         function selectSlot(s) { currentSlot = s; [0,1,2].forEach(i => document.getElementById('slot-'+i).classList.toggle('slot-active', i===s)); }
-
+// Guarda Estos Datos Cuando Guardes Tus Galletas
         function saveGame(showAlert = true) {
             const now = Date.now();
             const sessionElapsed = Math.floor((now - sessionStartTime) / 1000);
@@ -1074,7 +1796,7 @@
             updateUnsavedWarning();
             if (showAlert) alert(getT('saved'));
         }
-
+// Auto Guardado Cada 6 Min Como En Minecraft
         function autosave() {
             const statusDiv = document.getElementById('autosave-status');
             if (statusDiv) {
@@ -1086,7 +1808,7 @@
                 if (statusDiv) statusDiv.style.display = 'none';
             }, 1000);
         }
-
+// Cargar Partida Y Sus Estadisticas
         function loadGame() {
             const raw = localStorage.getItem('foodClicker_v45_'+currentSlot);
             if(raw) {
@@ -1106,9 +1828,9 @@
                 updateUnsavedWarning();
             }
         }
-
+// Destruye Tu Universo Reseteando!!
         function restartGame() {
-            if (confirm(getT('restartConfirm'))) {
+            if (confirm(getT('restartConfirm'))) { // Restaura Los Datos Y Estadisticas Mencionadas Abajo
                 cookies = 0; totalEver = 0; cpc = 1;
                 buildings = [
                     { id: 0, cost: 72, base: 72, owned: 0, cps: 2 },
@@ -1143,7 +1865,7 @@
                 updateUnsavedWarning();
             }
         }
-
+// Exporta Tu save Como JSON Y Se Incluyen La Mayoria De Los Datos, Creo...
         function exportSlot() {
             const now = Date.now();
             const sessionElapsed = Math.floor((now - sessionStartTime) / 1000);
@@ -1158,14 +1880,14 @@
             a.click();
             URL.revokeObjectURL(url);
         }
-
+// Leer Que Slot Contiene Info
         function importSlot(event) {
             const file = event.target.files[0];
             if (!file) return;
             const reader = new FileReader();
             reader.onload = (e) => {
                 try {
-                    const d = JSON.parse(e.target.result);
+                    const d = JSON.parse(e.target.result); // Si El Archivo Esta Corrupto Mostrar Error
                     if (typeof d.cookies !== 'number' || typeof d.totalEver !== 'number' || !Array.isArray(d.buildings)) {
                         alert('Archivo no válido');
                         return;
@@ -1190,11 +1912,11 @@
             reader.readAsText(file);
             event.target.value = '';
         }
-
+// Manejo Del Precio De La Musica. se me olvido el acento pero no lo pondre
         function handleMusicUpload(e) {
             if(cookies < 5000) return alert("Necesitas 5k");
             const file = e.target.files[0];
-            if(file) {
+            if(file) { 
                 cookies -= 5000;
                 document.getElementById('bg-audio').src = URL.createObjectURL(file);
                 document.getElementById('bg-audio').play().catch(()=>{});
@@ -1266,7 +1988,7 @@
 
         schedulePowerup();
         setInterval(autosave, 360000);
-
+// Si Es Android o iOS La IU Cambia
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             document.getElementById('audio-init-btn').style.display = 'inline-block';
         } else {
@@ -1274,7 +1996,7 @@
             audioInitialized = true;
         }
 
-        changeLanguage('es');
+        changeLanguage('es'); // Iniciar En Español Por Defecto
         calculateCPC(); // inicializar cpc
     </script>
 </body>
