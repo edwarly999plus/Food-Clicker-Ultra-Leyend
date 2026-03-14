@@ -11,15 +11,18 @@ La música de fondo **You Can´t Do It** está compuesta por EdwarlyGamer999+
 si va a hacer un fork del proyecto por favor no use esta musica y use cualquier otra libre de derechos de autor.
 
 ## 🇪🇸 🇺🇸 Lenguajes Soportados: 
-Español	🇪🇸 (Default)
-English	🇺🇸	
-한국어 (Coreano)	🇰🇷	
-中文 (Chino)	🇨🇳	
-Français (Francés)	🇫🇷	
-Deutsch (Alemán)	🇩🇪	
-Italiano (Italiano)	🇮🇹	
-Português (Portugués)	🇧🇷	
-arРусский (Ruso) 	🇷🇺	
-العربية (Árabe) 🇸🇦
+
+| Lenguaje | Bandera |
+|----------|------|
+| Español | `🇪🇸` (Defecto) |
+| English | `🇺🇸` |
+| Árabe | `🇸🇦` |
+| 中文 (Chino) | `🇨🇳` |
+| Português (Portugués) | `🇧🇷` |
+| 한국어 (Coreano) | `🇰🇷` |
+| Français (Francés) | `🇫🇷` |
+| Portuguese (Brazil) | `🇧🇷` |
+| arРусский (Ruso) | `🇷🇺` |
+| Deutsch (Alemán) | `🇩🇪` |
 ## ❓ Instalación
 Para ejecutar el juego en Windows, descarga la última versión en función del sistema. Para ejecutar el juego en cualquier otra plataforma, abre el archivo .html con tu navegador de preferencia.
